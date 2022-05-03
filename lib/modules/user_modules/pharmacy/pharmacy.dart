@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:h_care/shared/componant/componant.dart';
 import 'package:h_care/shared/style/color.dart';
 
 class Pharmacy extends StatelessWidget {
@@ -63,7 +64,7 @@ class Pharmacy extends StatelessWidget {
             ),
 
           ),
-          MaterialButton(onPressed: (){},child: const Text("Request",style:TextStyle(color: Colors.white,fontSize: 16.0),),color: mainColor,),
+          defaultMatrialButton(text: "Request",function: (){}),
         ],
       ),
     );

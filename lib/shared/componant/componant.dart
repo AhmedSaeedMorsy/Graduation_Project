@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, avoid_types_as_parameter_names, unnecessary_string_interpolations, unnecessary_brace_in_string_interps
 
 import 'package:flutter/material.dart';
+import 'package:h_care/modules/user_modules/doctors/doctors.dart';
 import 'package:h_care/shared/style/color.dart';
 
 void navigatorPushAndReblace(context, Widget) => Navigator.pushAndRemoveUntil(
@@ -16,7 +17,7 @@ Widget defaultTextFormField(
         required String labelText,
         required Icon prefixIcon,
         IconButton? suffixIcon,
-        bool obscure = false ,
+        bool obscure = false,
         void Function(String)? onFieldSubmeitted,
         String? Function(String?)? validator}) =>
     TextFormField(
@@ -49,7 +50,7 @@ Widget defaultButton(
         ),
       ),
       decoration: BoxDecoration(
-        color:mainColor,
+        color: mainColor,
         borderRadius: BorderRadius.circular(15.0),
       ),
     );
@@ -61,23 +62,80 @@ navigatTo(context, Widget) {
   );
 }
 
-Widget bookMatrialButton(
-  {
-    required Color backGround ,
-    required Color textColor,
-  }
-){
+Widget bookMatrialButton({
+  required Color backGround,
+  required Color textColor,
+}) {
   return Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadiusDirectional.circular(15.0),
-                    color: backGround),
-                width: double.infinity,
-                child: MaterialButton(
-                  onPressed: () {},
-                  child:  Text(
-                    "book",
-                    style: TextStyle(color:textColor, fontSize: 24.0),
-                  ),
-                ),
-              );
+    decoration: BoxDecoration(
+        borderRadius: BorderRadiusDirectional.circular(15.0),
+        color: backGround),
+    width: double.infinity,
+    child: MaterialButton(
+      onPressed: () {},
+      child: Text(
+        "book",
+        style: TextStyle(color: textColor, fontSize: 24.0),
+      ),
+    ),
+  );
+}
+
+Widget buildGradItem(context) {
+  return InkWell(
+    onTap: () {
+      navigatTo(context, const DoctorDisplay());
+    },
+    child: Container(
+      decoration: BoxDecoration(
+        color: mainColor,
+        borderRadius: BorderRadiusDirectional.circular(15.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: const [
+            Image(
+              image: AssetImage(
+                "assets/images/photo1.png",
+              ),
+              width: 60.0,
+              height: 60.0,
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "specialist name",
+              style: TextStyle(color: Colors.white70, fontSize: 22.0),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "30 Doctor",
+              style: TextStyle(color: Colors.grey, fontSize: 16.0),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget defaultMatrialButton(
+  {
+    required String text,
+    void Function()? function ,
+  }
+) {
+  return MaterialButton(
+    onPressed:function,
+    minWidth: 100.0,
+    child: Text(
+      text,
+      style:const TextStyle(color: Colors.white, fontSize: 16.0),
+    ),
+    color: mainColor,
+  );
 }

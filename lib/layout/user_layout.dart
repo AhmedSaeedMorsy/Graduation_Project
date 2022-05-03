@@ -9,8 +9,8 @@ import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
 import 'package:h_care/shared/cubit/user_cubit/states.dart';
 import 'package:h_care/shared/style/color.dart';
 
-class HomeLayOut extends StatelessWidget {
-  const HomeLayOut({Key? key}) : super(key: key);
+class UserHomeLayOut extends StatelessWidget {
+  const UserHomeLayOut({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

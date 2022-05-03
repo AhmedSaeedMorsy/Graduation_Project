@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:h_care/layout/home_layout.dart';
+import 'package:h_care/layout/user_layout.dart';
 import 'package:h_care/modules/register/register_screen.dart';
 import 'package:h_care/shared/componant/componant.dart';
 import 'package:h_care/shared/cubit/login_cubit/cubit.dart';
@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                             text: "Login",
                             function: () {
                               if (formKey.currentState!.validate()) {
-                                navigatTo(context, const HomeLayOut());
+                                navigatTo(context, const UserHomeLayOut());
                               }
                             }),
                         const SizedBox(

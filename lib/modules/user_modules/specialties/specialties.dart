@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
-import 'package:h_care/modules/user_modules/doctors/doctors.dart';
 
 import 'package:h_care/shared/componant/componant.dart';
 import 'package:h_care/shared/style/color.dart';
@@ -52,44 +51,5 @@ class Specialties extends StatelessWidget {
     );
   }
 
-  Widget buildGradItem(context) {
-    return InkWell(
-      onTap: () {
-        navigatTo(context , const DoctorDisplay());
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: mainColor,
-          borderRadius: BorderRadiusDirectional.circular(15.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: const [
-              Image(
-                image: AssetImage(
-                  "assets/images/photo1.png",
-                ),
-                width: 60.0,
-                height: 60.0,
-              ),SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                "specialist name",
-                style: TextStyle(color: Colors.white70, fontSize: 22.0),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                "30 Doctor",
-                style: TextStyle(color: Colors.grey, fontSize: 16.0),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  
 }
