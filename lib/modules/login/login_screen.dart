@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                           controller: passwordController,
                           textInputType: TextInputType.visiblePassword,
                           labelText: "Password",
-                          obscure: LoginCubit.get(context).isShown,
+                          obscure: LoginCubit.get(context).isShownPassword,
                           prefixIcon: const Icon(Icons.lock_outlined),
                           validator: (String? value) {
                             if (value!.isEmpty) {
@@ -76,7 +76,7 @@ class LoginScreen extends StatelessWidget {
                               LoginCubit.get(context)
                                   .changeVisibilityPassword();
                             },
-                            icon: LoginCubit.get(context).suffix,
+                            icon: LoginCubit.get(context).suffixPassword,
                           ),
                         ),
                         const SizedBox(
@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                             text: "Login",
                             function: () {
                               if (formKey.currentState!.validate()) {
-                                navigatTo(context, const UserHomeLayOut());
+                                navigatTo(context,  UserHomeLayOut());
                               }
                             }),
                         const SizedBox(

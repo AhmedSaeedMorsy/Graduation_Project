@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:h_care/layout/doctor_layout.dart';
+import 'package:h_care/layout/user_layout.dart';
 
 import 'package:h_care/modules/splash_screen/splash_screen.dart';
 import 'package:h_care/shared/bloc_observer.dart';
@@ -8,6 +10,7 @@ import 'package:h_care/shared/cubit/doctor_cubit/cubit.dart';
 import 'package:h_care/shared/cubit/login_cubit/cubit.dart';
 import 'package:h_care/shared/cubit/states.dart';
 import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
+import 'package:h_care/shared/network/remote/dio.dart';
 import 'package:h_care/shared/style/theme.dart';
 
 void main(List<String> args) {
@@ -17,6 +20,7 @@ void main(List<String> args) {
     },
     blocObserver: MyBlocObserver(),
   );
+  DioHelper.init();
   runApp(const MyApp());
 }
 

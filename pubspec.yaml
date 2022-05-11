@@ -39,6 +39,10 @@ dependencies:
   curved_navigation_bar:
   flutter_rating_bar:
   date_picker_timeline:
+  dio:
+  shared_preferences:
+  flutter_advanced_drawer:
+  fluttertoast:
 
 
   # The following adds the Cupertino Icons font to your application.
