@@ -1,12 +1,17 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:conditional_builder_rec/conditional_builder_rec.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:h_care/layout/doctor_layout.dart';
 import 'package:h_care/layout/user_layout.dart';
 import 'package:h_care/modules/register/register_screen.dart';
 import 'package:h_care/shared/componant/componant.dart';
+import 'package:h_care/shared/constant.dart';
 import 'package:h_care/shared/cubit/login_cubit/cubit.dart';
 import 'package:h_care/shared/cubit/login_cubit/states.dart';
+import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
+import 'package:h_care/shared/network/local/cache_helper.dart';
 import 'package:h_care/shared/style/color.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -18,8 +23,52 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginStates>(
-      listener: (context, states) {},
-      builder: (context, states) {
+      listener: (context, state) {
+        if (state is UserLoginSuccessState) {
+          if (LoginCubit.get(context).userLoginModel!.isAuthenticated) {
+            if (LoginCubit.get(context).userLoginModel!.role![0] == "User") {
+              CacheHelper.setData(key: "role", value: "User");
+              CacheHelper.setData(
+                      key: "token",
+                      value: LoginCubit.get(context).userLoginModel!.token)
+                  .then((value) {
+                navigatorPushAndReblace(context, UserHomeLayOut());
+              });
+              CacheHelper.setData(
+                  key: "userName",
+                  value: LoginCubit.get(context).userLoginModel!.username);
+            } else if ((LoginCubit.get(context).userLoginModel!.role![0] ==
+                "Doctor")) {
+              CacheHelper.setData(key: "role", value: "Doctor");
+              CacheHelper.setData(
+                      key: "token",
+                      value: LoginCubit.get(context).userLoginModel!.token)
+                  .then((value) {
+                navigatorPushAndReblace(context, DoctorHomeLayOut());
+              });
+            }
+            role = LoginCubit.get(context).userLoginModel!.role![0];
+            username = LoginCubit.get(context).userLoginModel!.username;
+            token = LoginCubit.get(context).userLoginModel!.token;
+          } else {
+            showToast(
+              message: LoginCubit.get(context).userLoginModel!.message ??
+                  "try again",
+              state: toast.error,
+              context: context,
+              title: 'Oops..!',
+            );
+          }
+        } else if (state is UserLoginErrorState) {
+          showToast(
+            message: "Please enter correct data , and try again",
+            state: toast.error,
+            context: context,
+            title: 'Oops..!',
+          );
+        }
+      },
+      builder: (context, state) {
         return Scaffold(
           body: SafeArea(
             child: Center(
@@ -35,19 +84,26 @@ class LoginScreen extends StatelessWidget {
                           height: 150.0,
                           image: AssetImage("assets/images/icon.png"),
                         ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
                         Text(
                           "Login",
                           style: TextStyle(
-                            fontSize: 30.0,
+                            fontSize: 26.0,
                             fontWeight: FontWeight.bold,
                             color: mainColor,
                           ),
+                        ),
+                        const SizedBox(
+                          height: 20.0,
                         ),
                         defaultTextFormField(
                           controller: emailController,
                           textInputType: TextInputType.emailAddress,
                           labelText: "Email Address",
-                          prefixIcon: const Icon(Icons.alternate_email_outlined),
+                          prefixIcon:
+                              const Icon(Icons.alternate_email_outlined),
                           validator: (String? value) {
                             if (value!.isEmpty) {
                               return "Please Enter Your Email Adress";
@@ -82,13 +138,22 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20.0,
                         ),
-                        defaultButton(
+                        ConditionalBuilderRec(
+                          condition: state is! UserLoginLoadingState,
+                          builder: (context) => defaultButton(
                             text: "Login",
                             function: () {
                               if (formKey.currentState!.validate()) {
-                                navigatTo(context,  UserHomeLayOut());
+                                LoginCubit.get(context).userLogin(
+                                  email: emailController.text,
+                                  passward: passwordController.text,
+                                );
                               }
-                            }),
+                            },
+                          ),
+                          fallback: (context) =>
+                              const Center(child: CircularProgressIndicator()),
+                        ),
                         const SizedBox(
                           height: 20.0,
                         ),
@@ -97,7 +162,9 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             const Text(
                               "Don't have an Account ?",
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 91, 87, 87),
+                                  fontSize: 18.0),
                             ),
                             const SizedBox(
                               width: 5.0,
@@ -108,7 +175,8 @@ class LoginScreen extends StatelessWidget {
                               },
                               child: Text(
                                 "Sign Up",
-                                style: TextStyle(color: mainColor),
+                                style:
+                                    TextStyle(color: mainColor, fontSize: 18.0),
                               ),
                             ),
                           ],

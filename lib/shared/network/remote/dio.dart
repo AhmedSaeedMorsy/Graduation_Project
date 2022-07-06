@@ -5,7 +5,8 @@ class DioHelper {
   static void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: "http://192.168.4.100:44306",
+        baseUrl: "http://basyounisaad-001-site1.btempurl.com",
+        
         receiveDataWhenStatusError: true,
         
       ),
@@ -14,21 +15,33 @@ class DioHelper {
   static Future<Response>getData (
     {
       required String path,
-      Map<String, dynamic>? queryParameters,
+      Map ? queryParameters,
     }
   ) async{
-    return await dio.get(path);
+    dio.options.headers={
+      "Connection" : "keep-alive",
+      "Accept":"*/*",
+      "Accept-Encoding" : "gzip, deflate, br",
+      "Content-Type":"application/json",
+    };
+    return await dio.get(path,);
   }
 
   static Future<Response>postData (
     {
       
       required String path,
-      Map<String, dynamic>? queryParameters,
-      dynamic data,
+      Map ? queryParameters,
+      Map<String,dynamic>? data,
     }
   ) async{
-    return await dio.post(path);
+    dio.options.headers={
+      "Connection" : "keep-alive",
+      "Accept":"*/*",
+      "Content-Type":"application/json",
+     
+    };
+    return await dio.post(path,data: data);
   }
 
   static Future<Response>delData (

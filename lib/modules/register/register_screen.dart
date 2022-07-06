@@ -3,9 +3,12 @@
 import 'package:conditional_builder_rec/conditional_builder_rec.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:h_care/layout/user_layout.dart';
 import 'package:h_care/shared/componant/componant.dart';
+import 'package:h_care/shared/constant.dart';
 import 'package:h_care/shared/cubit/login_cubit/cubit.dart';
 import 'package:h_care/shared/cubit/login_cubit/states.dart';
+import 'package:h_care/shared/network/local/cache_helper.dart';
 import 'package:h_care/shared/style/color.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -22,7 +25,38 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is UserRigesterSuccessState) {
+          if (LoginCubit.get(context).userRigesterModel!.isAuthenticated) {
+            CacheHelper.setData(
+                      key: "role",
+                      value: LoginCubit.get(context).userLoginModel!.role![0]);
+            CacheHelper.setData(
+                    key: "token",
+                    value: LoginCubit.get(context).userRigesterModel!.token)
+                .then((value) {
+              navigatorPushAndReblace(context, UserHomeLayOut());
+            });
+            CacheHelper.setData(
+                    key: "userName",
+                    value: LoginCubit.get(context).userRigesterModel!.username);
+            token = LoginCubit.get(context).userRigesterModel!.token;
+            username = LoginCubit.get(context).userRigesterModel!.username;
+            role = LoginCubit.get(context).userLoginModel!.role![0];
+          } else {
+            showToast(
+              message: LoginCubit.get(context).userRigesterModel!.message ??
+                  "try again",context: context, title: 'Oops..!',
+              state: toast.error,
+            );
+          }
+        } else if (state is UserRigesterErrorState) {
+          showToast(
+            message: "Please enter correct data , and try again",
+            state: toast.error,context: context, title: 'Oops..!',
+          );
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -43,14 +77,19 @@ class RegisterScreen extends StatelessWidget {
                         width: 150.0,
                         height: 150.0,
                         image: AssetImage("assets/images/icon.png"),
+                      ),const SizedBox(
+                        height: 20.0,
                       ),
                       Text(
                         "Sign up",
                         style: TextStyle(
-                          fontSize: 30.0,
+                          fontSize: 26.0,
                           fontWeight: FontWeight.bold,
                           color: mainColor,
                         ),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
                       ),
                       defaultTextFormField(
                         controller: firstNameController,
@@ -133,12 +172,15 @@ class RegisterScreen extends StatelessWidget {
                         height: 20.0,
                       ),
                       defaultTextFormField(
-                        controller: ageController,
-                        textInputType: TextInputType.number,
-                        labelText: "age",
+                        controller: phoneController,
+                        textInputType: TextInputType.phone,
+                        labelText: "phone",
+                        prefixIcon: const Icon(
+                          Icons.phone,
+                        ),
                         validator: (String? value) {
                           if (value!.isEmpty) {
-                            return "Please Enter Your Password";
+                            return "Please Enter Your phone number";
                           }
                         },
                       ),
@@ -146,21 +188,36 @@ class RegisterScreen extends StatelessWidget {
                         height: 20.0,
                       ),
                       defaultTextFormField(
-                        controller: phoneController,
-                        textInputType: TextInputType.phone,
-                        labelText: "phone",
-                        prefixIcon: const Icon(
-                          Icons.phone,
-                        ),
+                        controller: ageController,
+                        textInputType: TextInputType.number,
+                        labelText: "age",
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return "Please Enter Your age";
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 20.0,
                       ),
                       ConditionalBuilderRec(
-                        condition: true,
+                        condition: state is! UserRigesterLoadingState,
                         builder: (context) => defaultButton(
                           text: "Sign Up",
-                          function: () {},
+                          function: () {
+                           if(formKey.currentState!.validate()){
+                              LoginCubit.get(context).userRigester(
+                              confirmPassward: confirmPasswordController.text,
+                              email: emailController.text,
+                              passward: passwordController.text,
+                              firstName: firstNameController.text,
+                              lastName: lastNameController.text,
+                              phoneNumper: phoneController.text,
+                              age: ageController.text,
+                            );
+                          
+                           }
+                           },
                         ),
                         fallback: (context) =>
                             const Center(child: CircularProgressIndicator()),

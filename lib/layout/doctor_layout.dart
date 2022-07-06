@@ -2,11 +2,13 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:h_care/modules/login/login_screen.dart';
 import 'package:h_care/modules/notifications/notifications.dart';
 import 'package:h_care/modules/search/search.dart';
 import 'package:h_care/shared/componant/componant.dart';
 import 'package:h_care/shared/cubit/doctor_cubit/cubit.dart';
 import 'package:h_care/shared/cubit/doctor_cubit/states.dart';
+import 'package:h_care/shared/network/local/cache_helper.dart';
 
 import 'package:h_care/shared/style/color.dart';
 
@@ -142,6 +144,14 @@ class DoctorHomeLayOut extends StatelessWidget {
                       onTap: () {},
                       leading: const Icon(Icons.settings),
                       title: const Text('Settings'),
+                    ),
+                    ListTile(
+                      onTap: () {
+                        navigatorPushAndReblace(context, LoginScreen());
+                        CacheHelper.removeData(key: 'token');
+                      },
+                      leading: const Icon(Icons.logout_outlined),
+                      title: const Text('Sign out'),
                     ),
                     const Spacer(),
                     DefaultTextStyle(

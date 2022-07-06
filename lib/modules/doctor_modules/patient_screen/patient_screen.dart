@@ -26,7 +26,7 @@ class PatientScreen extends StatelessWidget {
               children: [
                 Text(
                   "Prescription..",
-                  style: TextStyle(color: mainColor, fontSize: 30.0),
+                  style: TextStyle(color: mainColor, fontSize: 26.0),
                 ),
                 const SizedBox(
                   height: 20.0,

@@ -2,12 +2,14 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:h_care/modules/login/login_screen.dart';
 import 'package:h_care/modules/notifications/notifications.dart';
 import 'package:h_care/modules/search/search.dart';
 import 'package:h_care/shared/componant/componant.dart';
 
 import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
 import 'package:h_care/shared/cubit/user_cubit/states.dart';
+import 'package:h_care/shared/network/local/cache_helper.dart';
 import 'package:h_care/shared/style/color.dart';
 
 class UserHomeLayOut extends StatelessWidget {
@@ -26,7 +28,6 @@ class UserHomeLayOut extends StatelessWidget {
           animationDuration: const Duration(milliseconds: 300),
           animateChildDecoration: true,
           rtlOpening: false,
-          
           disabledGestures: false,
           childDecoration: const BoxDecoration(
             boxShadow: <BoxShadow>[
@@ -40,20 +41,20 @@ class UserHomeLayOut extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               leading: IconButton(
-            onPressed:handleMenuButtonPressed,
-            icon: ValueListenableBuilder<AdvancedDrawerValue>(
-              valueListenable: advancedDrawerController,
-              builder: (_, value, __) {
-                return AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 250),
-                  child: Icon(
-                    value.visible ? Icons.clear : Icons.menu,
-                    key: ValueKey<bool>(value.visible),
-                  ),
-                );
-              },
-            ),
-          ),
+                onPressed: handleMenuButtonPressed,
+                icon: ValueListenableBuilder<AdvancedDrawerValue>(
+                  valueListenable: advancedDrawerController,
+                  builder: (_, value, __) {
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      child: Icon(
+                        value.visible ? Icons.clear : Icons.menu,
+                        key: ValueKey<bool>(value.visible),
+                      ),
+                    );
+                  },
+                ),
+              ),
               actions: [
                 IconButton(
                   onPressed: () {
@@ -155,6 +156,16 @@ class UserHomeLayOut extends StatelessWidget {
                       leading: const Icon(Icons.settings),
                       title: const Text('Settings'),
                     ),
+                    ListTile(
+                      onTap: () {
+                        navigatorPushAndReblace(context, LoginScreen());
+                        CacheHelper.removeData(key: 'token');
+                        CacheHelper.removeData(key: 'role');
+                        CacheHelper.removeData(key: 'userName');
+                      },
+                      leading: const Icon(Icons.logout_outlined),
+                      title: const Text('Sign out'),
+                    ),
                     const Spacer(),
                     DefaultTextStyle(
                       style: const TextStyle(
@@ -174,11 +185,10 @@ class UserHomeLayOut extends StatelessWidget {
             ),
           ),
         );
-        
       },
-      
     );
   }
+
   void handleMenuButtonPressed() {
     advancedDrawerController.showDrawer();
   }

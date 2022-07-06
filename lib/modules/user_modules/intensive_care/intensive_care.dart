@@ -1,5 +1,12 @@
+import 'package:conditional_builder_rec/conditional_builder_rec.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:h_care/model/intensive-care-model.dart';
 import 'package:h_care/shared/componant/componant.dart';
+import 'package:h_care/shared/constant.dart';
+import 'package:h_care/shared/cubit/login_cubit/cubit.dart';
+import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
+import 'package:h_care/shared/cubit/user_cubit/states.dart';
 import 'package:h_care/shared/style/color.dart';
 
 class IntensiveCare extends StatelessWidget {
@@ -7,26 +14,52 @@ class IntensiveCare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Intensive Care",
-          style: TextStyle(color: mainColor),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: ListView.separated(
-            itemBuilder: (context, index) => intensiveCareItem(),
-            separatorBuilder: (context, index) => const SizedBox(
-                  height: 15.0,
-                ),
-            itemCount: 10),
-      ),
+    return BlocConsumer<UserCubit, UserStates>(
+      listener: ((context, state) {
+        if (state is BookingBedSuccessState) {
+          showToast(
+              message: UserCubit.get(context).bookingBedModel!.msg,
+              state: toast.success,
+              title: "Success",
+              context: context);
+        }
+      }),
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Intensive Care",
+              style: TextStyle(color: mainColor),
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: ConditionalBuilderRec(
+              condition: UserCubit.get(context).intensiveCareModel.intensiveCareDataModel.isNotEmpty,
+              builder: (context) => ListView.separated(
+                  itemBuilder: (context, index) => intensiveCareItem(
+                      UserCubit.get(context)
+                          .intensiveCareModel
+                          .intensiveCareDataModel[index],
+                      context),
+                  separatorBuilder: (context, index) => const SizedBox(
+                        height: 15.0,
+                      ),
+                  itemCount: UserCubit.get(context)
+                      .intensiveCareModel
+                      .intensiveCareDataModel
+                      .length),
+              fallback: (context) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
-  Widget intensiveCareItem() {
+  Widget intensiveCareItem(IntensiveCareDataModel model, context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadiusDirectional.circular(15.0),
@@ -47,7 +80,7 @@ class IntensiveCare extends StatelessWidget {
                   width: 15.0,
                 ),
                 Text(
-                  "Hospital Name",
+                  model.hospital!.name,
                   style: TextStyle(color: mainColor, fontSize: 22.0),
                 ),
               ],
@@ -94,7 +127,22 @@ class IntensiveCare extends StatelessWidget {
             const SizedBox(
               height: 15.0,
             ),
-            defaultButton(text: "booking bed", function: () {})
+            defaultButton(
+              text: "booking bed",
+              function: () {
+                showToast(
+                    message: "Are you sure ! you want to book a bed ",
+                    state: toast.confirm,
+                    title: "confirm",
+                    context: context,
+                    showCance: true,
+                    confirmFunction: () {
+                      UserCubit.get(context).bookingIntensiveCare(
+                          patientId: username, bedId: model.id);
+                      Navigator.pop(context);
+                    });
+              },
+            ),
           ],
         ),
       ),

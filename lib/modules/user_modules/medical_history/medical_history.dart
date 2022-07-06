@@ -21,15 +21,20 @@ class MedicalHistory extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
-                  Text(
-                    "Medical History..",
-                    style: TextStyle(color: mainColor, fontSize: 30.0),
+                  Expanded(flex: 3,
+                    child: Text(
+                      "Medical History..",
+                      style: TextStyle(color: mainColor, fontSize: 24.0),
+                    ),
                   ),
-                  const Image(
-                    width: 130.0,
-                    height: 150.0,
-                    image: AssetImage(
-                      "assets/images/medical_history.png",
+                  const Expanded(
+                    flex: 2,
+                    child: Image(
+                      width: 130.0,
+                      height: 150.0,
+                      image: AssetImage(
+                        "assets/images/medical_history.png",
+                      ),
                     ),
                   ),
                 ],
@@ -40,12 +45,15 @@ class MedicalHistory extends StatelessWidget {
             height: 20.0,
           ),
           Expanded(
-              child: ListView.separated(
-                  itemBuilder: (context, index) => medicalHistoryItem(context),
-                  separatorBuilder: (context, index) => const SizedBox(
-                        height: 15.0,
-                      ),
-                  itemCount: 10)),
+            child: ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, index) => medicalHistoryItem(context),
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 15.0,
+              ),
+              itemCount: 10,
+            ),
+          ),
         ],
       ),
     );
@@ -60,7 +68,7 @@ class MedicalHistory extends StatelessWidget {
           borderRadius: BorderRadiusDirectional.circular(15.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -9,14 +9,15 @@ class Pharmacy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Pharmacy..", style: TextStyle(color: mainColor, fontSize: 30.0),),
+            Text("Pharmacy..", style: TextStyle(color: mainColor, fontSize: 26.0),),
             const SizedBox(height: 15.0,),
             Expanded(
               child: ListView.separated(
+                physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => drugItem(),
                   separatorBuilder: (context, index) => Container(
                         color: mainColor,
@@ -45,7 +46,7 @@ class Pharmacy extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          CircleAvatar(backgroundColor: mainColor,radius: 30.0,
+          CircleAvatar(backgroundColor: mainColor,radius: 25.0,
             child:const Text("2",textScaleFactor: 2,),
           ),
           Expanded(
@@ -54,11 +55,11 @@ class Pharmacy extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  Text("name of Drug",style: TextStyle(fontSize: 20.0),),
+                  Text("name of Drug",style: TextStyle(fontSize: 18.0),maxLines: 2,overflow: TextOverflow.ellipsis,),
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text("Expiry date : 02:04:2023",style: TextStyle(fontSize: 16.0),),
+                  Text("Expiry date : 02:04:2023",style: TextStyle(fontSize: 14.0),),
                 ],
               ),
             ),

@@ -1,3 +1,5 @@
-// ignore_for_file: prefer_const_declarations, non_constant_identifier_names
+String ? token;
 
-final String RIGESTER ="/api/Auth/Register";
+String ? username;
+
+String ? role;

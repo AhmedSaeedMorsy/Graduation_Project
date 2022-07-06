@@ -15,7 +15,7 @@ class Schaduale extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             
-            Text("Today",style: TextStyle(fontSize: 30.0,color: mainColor),),
+            Text("Today",style: TextStyle(fontSize: 26.0,color: mainColor),),
             const SizedBox(height: 20.0,),
             ListView.separated(
               shrinkWrap: true,

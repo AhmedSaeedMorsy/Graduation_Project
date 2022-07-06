@@ -4,6 +4,7 @@ import 'package:conditional_builder_rec/conditional_builder_rec.dart';
 import 'package:flutter/material.dart';
 import 'package:h_care/modules/login/login_screen.dart';
 import 'package:h_care/shared/componant/componant.dart';
+import 'package:h_care/shared/network/local/cache_helper.dart';
 import 'package:h_care/shared/style/color.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -35,17 +36,21 @@ class _OnBoardingScrenState extends State<OnBoardingScren> {
   ];
 
   bool isLast = false;
+  void toLoginScreen() {
+    CacheHelper.setData(key: 'onBoarding', value: true);
+    navigatorPushAndReblace(context, LoginScreen());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mainColor,
       appBar: AppBar(
-        backgroundColor: mainColor ,
+        backgroundColor: mainColor,
         actions: [
           TextButton(
             onPressed: () {
-              navigatorPushAndReblace(context,  LoginScreen());
+              navigatorPushAndReblace(context, LoginScreen());
             },
             child: const Text('Skip',
                 style: TextStyle(
@@ -98,8 +103,7 @@ class _OnBoardingScrenState extends State<OnBoardingScren> {
                   builder: (context) => Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: TextButton(
-                      onPressed: () =>
-                          navigatorPushAndReblace(context,  LoginScreen()),
+                      onPressed: () => toLoginScreen(),
                       child: Text(
                         "Login",
                         style: TextStyle(
@@ -113,7 +117,6 @@ class _OnBoardingScrenState extends State<OnBoardingScren> {
                     onPressed: () => pageController.nextPage(
                       duration: const Duration(milliseconds: 700),
                       curve: Curves.easeOutQuad,
-                      
                     ),
                     child: Icon(
                       Icons.arrow_forward_ios,
@@ -166,6 +169,4 @@ class _OnBoardingScrenState extends State<OnBoardingScren> {
           ),
         ],
       );
-
-  
 }

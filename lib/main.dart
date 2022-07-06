@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:h_care/layout/doctor_layout.dart';
 import 'package:h_care/layout/user_layout.dart';
+import 'package:h_care/modules/login/login_screen.dart';
 
 import 'package:h_care/modules/splash_screen/splash_screen.dart';
 import 'package:h_care/shared/bloc_observer.dart';
-import 'package:h_care/shared/cubit/cubit.dart';
+
 import 'package:h_care/shared/cubit/doctor_cubit/cubit.dart';
 import 'package:h_care/shared/cubit/login_cubit/cubit.dart';
-import 'package:h_care/shared/cubit/states.dart';
+
 import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
+import 'package:h_care/shared/network/local/cache_helper.dart';
 import 'package:h_care/shared/network/remote/dio.dart';
 import 'package:h_care/shared/style/theme.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
   BlocOverrides.runZoned(
     () {
       LoginCubit();
@@ -21,6 +24,7 @@ void main(List<String> args) {
     blocObserver: MyBlocObserver(),
   );
   DioHelper.init();
+  await CacheHelper.init();
   runApp(const MyApp());
 }
 
@@ -32,27 +36,19 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => LoginCubit(),
+          create: (context) => LoginCubit(),  
         ),
         BlocProvider(
-          create: (context) => AppCubit(),
+          create: (context) => UserCubit()..getHospital()..getDepartmentModel()..getBed(),
         ),
-        BlocProvider(create: (context)=> UserCubit(),
-        
-        ),
-         BlocProvider(
+        BlocProvider(
           create: (context) => DoctorCubit(),
         ),
       ],
-      child: BlocConsumer<AppCubit, AppStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return MaterialApp(
-            theme: lightTheme,
-            home: const SplashScreen(),
-            debugShowCheckedModeBanner: false,
-          );
-        },
+      child: MaterialApp(
+        theme: lightTheme,
+        home:  const SplashScreen(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

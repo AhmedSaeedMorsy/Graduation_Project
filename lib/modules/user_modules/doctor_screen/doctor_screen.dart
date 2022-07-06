@@ -46,7 +46,7 @@ class DoctorScreen extends StatelessWidget {
                                 "name doctor",
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 30.0,
+                                    fontSize: 26.0,
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
@@ -174,6 +174,7 @@ class DoctorScreen extends StatelessWidget {
 
   Widget scheduleButton() {
     return Container(
+      clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
             color: Colors.white70,
             borderRadius: BorderRadiusDirectional.circular(12.0)),

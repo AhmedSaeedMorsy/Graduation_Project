@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:h_care/model/user-rigester-model.dart';
 
-import 'package:h_care/shared/constant.dart';
+import 'package:h_care/shared/end-points.dart';
 import 'package:h_care/shared/cubit/login_cubit/states.dart';
 import 'package:h_care/shared/network/remote/dio.dart';
 
@@ -32,5 +33,55 @@ class LoginCubit extends Cubit<LoginStates> {
         ? const Icon(Icons.visibility_off_outlined)
         : const Icon(Icons.visibility_outlined);
     emit(ChangeVisibilityPasswordState());
+  }
+
+  UserRigesterModel? userRigesterModel;
+
+  void userRigester({
+    required String confirmPassward,
+    required String email,
+    required String passward,
+    required String firstName,
+    required String lastName,
+    required String phoneNumper,
+    required var age,
+  }) {
+    emit(UserRigesterLoadingState());
+    DioHelper.postData(path: rigester, data: {
+      "confirmpassward": confirmPassward,
+      "email": email,
+      "passward": passward,
+      "firstName": firstName,
+      "lastName": lastName,
+      "age": age,
+      "phoneNumper": phoneNumper,
+    }).then((value) {
+      userRigesterModel = UserRigesterModel.fromJson(value.data);
+
+      emit(UserRigesterSuccessState());
+      
+    }).catchError((error) {
+      print(error.toString());
+      emit(UserRigesterErrorState(error.toString()));
+    });
+  }
+
+  UserRigesterModel? userLoginModel;
+
+  void userLogin({
+    required String email,
+    required String passward,
+  }) {
+    emit(UserLoginLoadingState());
+    DioHelper.postData(path: login, data: {
+      "email": email,
+      "passward": passward,
+    }).then((value) {
+      userLoginModel = UserRigesterModel.fromJson(value.data);
+      emit(UserLoginSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(UserLoginErrorState(error.toString()));
+    });
   }
 }
