@@ -20,11 +20,12 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ////////////////////////// Cahsing data with shared preferences/////////////////////////
     bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
     role = CacheHelper.getData(key: 'role');
     late Widget widget;
     token = CacheHelper.getData(key: 'token');
-
+    ////////////////////// Check on start widget//////////////// 
     if (onBoarding != null) {
       if (token != null) {
         if (role == "User") {
@@ -38,6 +39,7 @@ class SplashScreen extends StatelessWidget {
     } else {
       widget = const OnBoardingScren();
     }
+    //////////////////// UI design for splash screen /////////////////////////
     return Scaffold(
       body: AnimatedSplashScreen(
         duration: 3000,

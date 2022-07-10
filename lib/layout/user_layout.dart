@@ -21,6 +21,8 @@ class UserHomeLayOut extends StatelessWidget {
     return BlocConsumer<UserCubit, UserStates>(
       listener: (context, state) {},
       builder: (context, state) {
+///////////////////////////// Ui of User layOut  ////////////////////////////////////////////////////
+        ///////////// Drawer of User layOut  ///////////////////////////////
         return AdvancedDrawer(
           backdropColor: Colors.blueGrey,
           controller: advancedDrawerController,
@@ -112,6 +114,7 @@ class UserHomeLayOut extends StatelessWidget {
             body: UserCubit.get(context)
                 .bottomnavItem[UserCubit.get(context).currentIndex],
           ),
+/////////////////////// Ui of Drawer //////////////////////////////// 
           drawer: SafeArea(
             child: Container(
               child: ListTileTheme(
@@ -188,7 +191,7 @@ class UserHomeLayOut extends StatelessWidget {
       },
     );
   }
-
+//////////////////////// function to Show Drawer /////////////////////////////////
   void handleMenuButtonPressed() {
     advancedDrawerController.showDrawer();
   }

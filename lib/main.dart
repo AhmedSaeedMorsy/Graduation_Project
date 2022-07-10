@@ -15,31 +15,43 @@ import 'package:h_care/shared/network/local/cache_helper.dart';
 import 'package:h_care/shared/network/remote/dio.dart';
 import 'package:h_care/shared/style/theme.dart';
 
+///////////////// main function ///////////////////////
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  ////////// BloC observer //////////////////
   BlocOverrides.runZoned(
     () {
       LoginCubit();
+      UserCubit();
+      DoctorCubit();
     },
     blocObserver: MyBlocObserver(),
   );
+  /////// object of Dio ////////////////////
   DioHelper.init();
+  ////////// object of Shared preferences ///////////////////
   await CacheHelper.init();
+  ////////////// run App /////////////////////////
   runApp(const MyApp());
 }
 
+///////////////////////////// The Main Class of App //////////////////////////////////
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ////////////////////////// providers of all BloC of App //////////////////////////////////
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => LoginCubit(),  
+          create: (context) => LoginCubit(),
         ),
         BlocProvider(
-          create: (context) => UserCubit()..getHospital()..getDepartmentModel()..getBed(),
+          create: (context) => UserCubit()
+            ..getHospital()
+            ..getDepartmentModel()
+            ..getBed(),
         ),
         BlocProvider(
           create: (context) => DoctorCubit(),
@@ -47,7 +59,8 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: lightTheme,
-        home:  const SplashScreen(),
+        home:
+            const SplashScreen(), ////////////////////start Screen of App //////////////////////
         debugShowCheckedModeBanner: false,
       ),
     );
