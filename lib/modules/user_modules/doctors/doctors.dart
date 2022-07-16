@@ -180,6 +180,19 @@ class DoctorDisplay extends StatelessWidget {
               const SizedBox(
                 height: 10.0,
               ),
+              Text(
+                model.day,
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w100,
+                  color: Colors.white,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
               bookMatrialButton(backGround: mainColor, textColor: Colors.white),
             ],
           ),

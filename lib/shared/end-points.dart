@@ -12,5 +12,5 @@ const String hospital ="/api/Department/getallhospital" ;
 
 const String bed ="/api/Department/listavailablebeds";
 
-
+const String medicine = "/api/medicine/getallmedicines";
 

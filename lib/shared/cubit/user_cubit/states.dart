@@ -4,6 +4,8 @@ class UserInitState extends UserStates {}
 
 class ChangeBottomNavigationIndex extends UserStates {}
 
+class AppChangeBottomSheetState extends UserStates{}
+
 class DepartmentLoadingState extends UserStates {}
 
 class DepartmentSuccessState extends UserStates {}
@@ -62,4 +64,24 @@ class DepartmentInHospitalErrorState extends UserStates {
   final String error;
 
   DepartmentInHospitalErrorState(this.error);
+}
+
+class MedicineLoadingState extends UserStates {}
+
+class MedicineSuccessState extends UserStates {}
+
+class MedicineErrorState extends UserStates {
+  final String error;
+
+  MedicineErrorState(this.error);
+}
+
+class AddMedicineLoadingState extends UserStates {}
+
+class AddMedicineSuccessState extends UserStates {}
+
+class AddMedicineErrorState extends UserStates {
+  final String error;
+
+  AddMedicineErrorState(this.error);
 }

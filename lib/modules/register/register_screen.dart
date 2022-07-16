@@ -41,7 +41,7 @@ class RegisterScreen extends StatelessWidget {
                 key: "userName",
                 value: LoginCubit.get(context).userRigesterModel!.username);
             token = LoginCubit.get(context).userRigesterModel!.token;
-            username = LoginCubit.get(context).userRigesterModel!.username;
+            username = LoginCubit.get(context).userRigesterModel!.username!;
             role = LoginCubit.get(context).userLoginModel!.role![0];
           } else {
             showToast(

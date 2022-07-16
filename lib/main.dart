@@ -36,7 +36,7 @@ void main(List<String> args) async {
 }
 
 ///////////////////////////// The Main Class of App //////////////////////////////////
-  class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -51,7 +51,8 @@ void main(List<String> args) async {
           create: (context) => UserCubit()
             ..getHospital()
             ..getDepartmentModel()
-            ..getBed(),
+            ..getBed()
+            ..getMedicine(),
         ),
         BlocProvider(
           create: (context) => DoctorCubit(),

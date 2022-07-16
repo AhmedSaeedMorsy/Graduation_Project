@@ -17,16 +17,19 @@ void navigatorPushAndReblace(context, Widget) => Navigator.pushAndRemoveUntil(
     ),
     (Route<dynamic> route) => false);
 
-Widget defaultTextFormField(
-        {required TextEditingController controller,
-        required TextInputType textInputType,
-        required String labelText,
-        Icon? prefixIcon,
-        IconButton? suffixIcon,
-        bool obscure = false,
-        void Function(String)? onFieldSubmeitted,
-        String? Function(String?)? validator}) =>
+Widget defaultTextFormField({
+  required TextEditingController controller,
+  required TextInputType textInputType,
+  required String labelText,
+  Icon? prefixIcon,
+  IconButton? suffixIcon,
+  bool obscure = false,
+  void Function(String)? onFieldSubmeitted,
+  void Function()? onTap,
+  String? Function(String?)? validator,
+}) =>
     TextFormField(
+      onTap: onTap,
       onFieldSubmitted: onFieldSubmeitted,
       obscureText: obscure,
       validator: validator,
@@ -81,7 +84,8 @@ Widget bookMatrialButton({
       borderRadius: BorderRadiusDirectional.circular(15.0),
       color: backGround,
     ),
-    width: double.infinity,height: 40.0,
+    width: double.infinity,
+    height: 40.0,
     child: MaterialButton(
       onPressed: () {},
       child: Text(
@@ -193,30 +197,46 @@ choseToast(toast state) {
   }
 }
 
-
-Widget offlineWidget(Widget widget){
+Widget offlineWidget(Widget widget) {
   return OfflineBuilder(
-        connectivityBuilder: (
-          BuildContext context,
-          ConnectivityResult connectivity,
-          Widget child,
-        ) {
-          final bool connected = connectivity != ConnectivityResult.none;
-          if(connected){
-            return widget;
-          }else{
-            return Center(
-              child: Container(
-                child: Column( mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  Text("Can't connect .. Check your internet",style: TextStyle(fontSize: 18.0,fontStyle: FontStyle.italic,fontWeight: FontWeight.bold,color: mainColor,),),
-                  const SizedBox(height: 20.0,),
-                  const Image(image: AssetImage("assets/images/offline.png",),),
-                ]),
+    connectivityBuilder: (
+      BuildContext context,
+      ConnectivityResult connectivity,
+      Widget child,
+    ) {
+      final bool connected = connectivity != ConnectivityResult.none;
+      if (connected) {
+        return widget;
+      } else {
+        return Center(
+          child: Container(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                "Can't connect .. Check your internet",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  color: mainColor,
+                ),
               ),
-            );
-          }
-        },child: Center(child: CircularProgressIndicator(color: mainColor,)),
-        
-);
+              const SizedBox(
+                height: 20.0,
+              ),
+              const Image(
+                image: AssetImage(
+                  "assets/images/offline.png",
+                ),
+              ),
+            ]),
+          ),
+        );
+      }
+    },
+    child: Center(
+        child: CircularProgressIndicator(
+      color: mainColor,
+    )),
+  );
 }

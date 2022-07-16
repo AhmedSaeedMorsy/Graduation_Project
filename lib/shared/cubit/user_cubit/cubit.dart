@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:h_care/model/booking-bed-model.dart';
 import 'package:h_care/model/department-in-hospital.dart';
 import 'package:h_care/model/department-model.dart';
 import 'package:h_care/model/doctors-indepartment-model.dart';
 import 'package:h_care/model/hospitals-model.dart';
 import 'package:h_care/model/intensive-care-model.dart';
+import 'package:h_care/model/medicine-model.dart';
 
 import 'package:h_care/modules/settings/settings.dart';
 import 'package:h_care/modules/user_modules/home/home.dart';
@@ -24,19 +23,28 @@ class UserCubit extends Cubit<UserStates> {
 
   ///////////////////////////////////////////////////////////////////bottom navigation bar //////////////////////////////////////////////////////////
   int currentIndex = 0;
-  List<Widget> bottomnavItem = const [
-    Home(),
-    Specialties(),
+  List<Widget> bottomnavItem =  [
+    const Home(),
+    const Specialties(),
     Pharmacy(),
-    MedicalHistory(),
-    Settings(),
+    const MedicalHistory(),
+    const Settings(),
   ];
 
   void changeIndex(int index) {
     currentIndex = index;
     emit(ChangeBottomNavigationIndex());
   }
+///////////////////////////////// Bottom Sheet ///////////////////////////////////////////////////////////////////////////\
 
+  bool isBottomSheetShown = false;
+  IconData fabIcon = Icons.add;
+
+  void changeBottomSheet({required bool isShow, required IconData icon}) {
+    isBottomSheetShown = isShow;
+    fabIcon = icon;
+    emit(AppChangeBottomSheetState());
+  }
 //////////////////////////////////////////////////////////////////All Department ////////////////////////////////////////////////////////
   DepartmentModel departmentModel = DepartmentModel();
   void getDepartmentModel() {
@@ -103,28 +111,6 @@ class UserCubit extends Cubit<UserStates> {
     });
   }
 
-////////////////////////////////////////////////////// Booking bed/////////////////////////////////////////
-  BookingBed? bookingBedModel;
-
-  void bookingIntensiveCare({
-    required patientId,
-    required bedId,
-  }) {
-    intensiveCareModel.intensiveCareDataModel = [];
-    emit(BookingBedLoadingState());
-    DioHelper.postData(
-      path: "/api/Department/bookingbed?patientid=$patientId&bedid=$bedId",
-    ).then((value) {
-      bookingBedModel = BookingBed.fromJson(value.data);
-       getBed();
-      emit(BookingBedSuccessState());
-     
-    }).catchError((error) {
-      print(error.toString());
-      emit(BookingBedErrorState(error.toString()));
-    });
-  }
-
 ////////////////////////////////////////////Department In Hospital/////////////////////////////////////////////
 
   DepartmentInHospitalModel departmentInHospitalModel =
@@ -142,6 +128,47 @@ class UserCubit extends Cubit<UserStates> {
     }).catchError((error) {
       print(error.toString());
       emit(DepartmentInHospitalErrorState(error.toString()));
+    });
+  }
+  ///////////////////////////////////////// Pharmacy ///////////////////////////////////////////////////
+
+  Medicine medicineModel = Medicine();
+  void getMedicine() {
+    emit(MedicineLoadingState());
+    DioHelper.getData(
+      path: medicine,
+    ).then((value) {
+      medicineModel = Medicine.fromJson(value.data);
+      emit(MedicineSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(MedicineErrorState(error.toString()));
+    });
+  }
+  /////////////////////////// Add Medicine //////////////////////////////////////
+
+  void postMedicine({
+    required String patientId,
+    required String medicineName,
+    required String phone,
+    required String quantity,
+    required String exprDate,
+  }) {
+    emit(AddMedicineLoadingState());
+    DioHelper.postData(
+      path: "/api/medicine/addmedicine?patientId=$patientId&medicineName=$medicineName&phone=$phone&quantity=$quantity&ExprDate=$exprDate",
+      queryParameters: {
+        "patientId": patientId,
+        "medicineName": medicineName,
+        "phone": phone,
+        "quantity": quantity,
+        "ExprDate": exprDate,
+      },
+    ).then((value) {
+      emit(AddMedicineSuccessState());
+      getMedicine();
+    }).catchError((error) {
+      emit(AddMedicineErrorState(error));
     });
   }
 }

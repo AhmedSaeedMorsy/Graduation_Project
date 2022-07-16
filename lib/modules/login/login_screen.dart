@@ -48,7 +48,7 @@ class LoginScreen extends StatelessWidget {
               });
             }
             role = LoginCubit.get(context).userLoginModel!.role![0];
-            username = LoginCubit.get(context).userLoginModel!.username;
+            username = LoginCubit.get(context).userLoginModel!.username!;
             token = LoginCubit.get(context).userLoginModel!.token;
           } else {
             showToast(

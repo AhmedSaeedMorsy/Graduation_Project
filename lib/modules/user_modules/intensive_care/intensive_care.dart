@@ -16,13 +16,7 @@ class IntensiveCare extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserStates>(
       listener: ((context, state) {
-        if (state is BookingBedSuccessState) {
-          showToast(
-              message: UserCubit.get(context).bookingBedModel!.msg,
-              state: toast.success,
-              title: "Success",
-              context: context);
-        }
+        
       }),
       builder: (context, state) {
         return Scaffold(
