@@ -8,7 +8,19 @@ class Pharmacy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: offlineWidget(pharmacyWidget()),
+      floatingActionButton: FloatingActionButton(
+        
+        onPressed: () {},
+        child: Icon(
+          Icons.add,
+          color: forthColor,
+        ),
+      ),
+    );
+  }
+  Widget pharmacyWidget(){
+    return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,18 +41,8 @@ class Pharmacy extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        
-        onPressed: () {},
-        child: Icon(
-          Icons.add,
-          color: forthColor,
-        ),
-      ),
-    );
+      );
   }
-
   Widget drugItem() {
     return Padding(
       padding: const EdgeInsets.all(8.0),

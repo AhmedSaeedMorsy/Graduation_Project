@@ -8,6 +8,10 @@ class Patients extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return offlineWidget(patientsWidget());
+  }
+
+  Widget patientsWidget() {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: ListView.separated(

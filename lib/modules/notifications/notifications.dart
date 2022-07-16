@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
+import 'package:h_care/shared/componant/componant.dart';
 import 'package:h_care/shared/style/color.dart';
 
 class Notifications extends StatelessWidget {
@@ -15,16 +16,20 @@ class Notifications extends StatelessWidget {
           style: TextStyle(fontSize: 25.0, color: mainColor),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Container(
-          child: ListView.separated(
-            itemBuilder: (context, index) => notificationItem(),
-            separatorBuilder: (context, index) => const SizedBox(
-              height: 15.0,
-            ),
-            itemCount: 10,
+      body: offlineWidget(notificationWidget()),
+    );
+  }
+
+  Widget notificationWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Container(
+        child: ListView.separated(
+          itemBuilder: (context, index) => notificationItem(),
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 15.0,
           ),
+          itemCount: 10,
         ),
       ),
     );

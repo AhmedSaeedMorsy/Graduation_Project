@@ -7,6 +7,10 @@ class Schaduale extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return offlineWidget(schadualeWidget());
+  }
+
+  Widget schadualeWidget() {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
@@ -14,9 +18,13 @@ class Schaduale extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
-            Text("Today",style: TextStyle(fontSize: 26.0,color: mainColor),),
-            const SizedBox(height: 20.0,),
+            Text(
+              "Today",
+              style: TextStyle(fontSize: 26.0, color: mainColor),
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -83,13 +91,13 @@ class Schaduale extends StatelessWidget {
             Column(
               children: [
                 defaultMatrialButton(
-                  
-              text: "Confirm",function: (){},
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            defaultMatrialButton(text: "Cancel",function: (){}),
+                  text: "Confirm",
+                  function: () {},
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                defaultMatrialButton(text: "Cancel", function: () {}),
               ],
             )
           ],

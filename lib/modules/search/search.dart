@@ -16,7 +16,11 @@ class Search extends StatelessWidget {
           style: TextStyle(fontSize: 25.0, color: mainColor),
         ),
       ),
-      body: Padding(
+      body: offlineWidget(searchWidget())
+    );
+  }
+  Widget searchWidget(){
+    return Padding(
         padding: const EdgeInsets.all(12.0),
         child: Container(
           child: defaultTextFormField(
@@ -28,7 +32,6 @@ class Search extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

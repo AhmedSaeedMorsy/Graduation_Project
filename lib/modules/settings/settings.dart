@@ -9,6 +9,10 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return offlineWidget(settingsWidget(context));
+  }
+
+  Widget settingsWidget(context) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: SingleChildScrollView(
@@ -121,7 +125,6 @@ class Settings extends StatelessWidget {
                     CacheHelper.removeData(key: 'role');
                     CacheHelper.removeData(key: 'userName');
                     navigatorPushAndReblace(context, LoginScreen());
-                    
                   },
                 ),
               ],

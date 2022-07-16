@@ -3,7 +3,7 @@
 import 'package:conditional_builder_rec/conditional_builder_rec.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import 'package:h_care/model/doctors-indepartment-model.dart';
 
 import 'package:h_care/modules/user_modules/doctor_screen/doctor_screen.dart';
@@ -28,45 +28,47 @@ class DoctorDisplay extends StatelessWidget {
         listener: ((context, state) {}),
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(),
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Doctors.. ",
-                    style: TextStyle(color: mainColor, fontSize: 26.0),
-                  ),
-                  const SizedBox(
-                    height: 15.0,
-                  ),
-                  ConditionalBuilderRec(
-                    condition: state is! DoctorsInDepartmentLoadingState,
-                    builder: (context) => Expanded(
-                      child: ListView.separated(
-                        physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) => doctorItem(
-                              context,
-                              UserCubit.get(context)
+              appBar: AppBar(),
+              body: offlineWidget(
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Doctors.. ",
+                        style: TextStyle(color: mainColor, fontSize: 26.0),
+                      ),
+                      const SizedBox(
+                        height: 15.0,
+                      ),
+                      ConditionalBuilderRec(
+                        condition: state is! DoctorsInDepartmentLoadingState,
+                        builder: (context) => Expanded(
+                          child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) => doctorItem(
+                                  context,
+                                  UserCubit.get(context)
+                                      .doctorsInDepart
+                                      .doctorInDepartmentData[index]),
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                    height: 15.0,
+                                  ),
+                              itemCount: UserCubit.get(context)
                                   .doctorsInDepart
-                                  .doctorInDepartmentData[index]),
-                          separatorBuilder: (context, index) => const SizedBox(
-                                height: 15.0,
-                              ),
-                          itemCount: UserCubit.get(context)
-                              .doctorsInDepart
-                              .doctorInDepartmentData
-                              .length),
-                    ),
-                    fallback: (context) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                                  .doctorInDepartmentData
+                                  .length),
+                        ),
+                        fallback: (context) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
+                ),
+              ));
         });
   }
 
@@ -149,7 +151,6 @@ class DoctorDisplay extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    
                     child: Text(
                       model.hospital.name,
                       style: const TextStyle(
@@ -162,41 +163,22 @@ class DoctorDisplay extends StatelessWidget {
                     ),
                   ),
                   Row(
-                          children: const [
-                            Icon(Icons.attach_money_outlined),
-                            SizedBox(
-                              width: 2.0,
-                            ),
-                            Text("price :"),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Text("100"),
-                          ],
-                        ),
-                  
+                    children: const [
+                      Icon(Icons.attach_money_outlined),
+                      SizedBox(
+                        width: 2.0,
+                      ),
+                      Text("price :"),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text("100"),
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(
                 height: 10.0,
-              ),
-              RatingBar.builder(
-                initialRating: 3,
-                minRating: .5,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-                itemBuilder: (context, number) => const Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (rating) {
-                  print(rating);
-                },
-              ),
-              const SizedBox(
-                height: 15.0,
               ),
               bookMatrialButton(backGround: mainColor, textColor: Colors.white),
             ],
@@ -205,5 +187,4 @@ class DoctorDisplay extends StatelessWidget {
       ),
     );
   }
-
 }

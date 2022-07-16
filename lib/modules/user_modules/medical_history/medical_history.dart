@@ -8,7 +8,10 @@ class MedicalHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return offlineWidget(medicalHistoryWidgt());
+  }
+Widget medicalHistoryWidgt(){
+  return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
         children: [
@@ -57,8 +60,7 @@ class MedicalHistory extends StatelessWidget {
         ],
       ),
     );
-  }
-
+}
   Widget medicalHistoryItem(context) {
     return InkWell(
       onTap: () => navigatTo(context, const Prescription()),

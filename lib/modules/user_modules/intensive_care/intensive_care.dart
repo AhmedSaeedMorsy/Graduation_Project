@@ -32,10 +32,19 @@ class IntensiveCare extends StatelessWidget {
               style: TextStyle(color: mainColor),
             ),
           ),
-          body: Padding(
+          body: offlineWidget(intensiveWidget(context)),
+        );
+      },
+    );
+  }
+Widget intensiveWidget(context){
+  return Padding(
             padding: const EdgeInsets.all(12.0),
             child: ConditionalBuilderRec(
-              condition: UserCubit.get(context).intensiveCareModel.intensiveCareDataModel.isNotEmpty,
+              condition: UserCubit.get(context)
+                  .intensiveCareModel
+                  .intensiveCareDataModel
+                  .isNotEmpty,
               builder: (context) => ListView.separated(
                   itemBuilder: (context, index) => intensiveCareItem(
                       UserCubit.get(context)
@@ -53,12 +62,8 @@ class IntensiveCare extends StatelessWidget {
                 child: CircularProgressIndicator(),
               ),
             ),
-          ),
-        );
-      },
-    );
-  }
-
+          );
+}
   Widget intensiveCareItem(IntensiveCareDataModel model, context) {
     return Container(
       decoration: BoxDecoration(
@@ -127,22 +132,7 @@ class IntensiveCare extends StatelessWidget {
             const SizedBox(
               height: 15.0,
             ),
-            defaultButton(
-              text: "booking bed",
-              function: () {
-                showToast(
-                    message: "Are you sure ! you want to book a bed ",
-                    state: toast.confirm,
-                    title: "confirm",
-                    context: context,
-                    showCance: true,
-                    confirmFunction: () {
-                      UserCubit.get(context).bookingIntensiveCare(
-                          patientId: username, bedId: model.id);
-                      Navigator.pop(context);
-                    });
-              },
-            ),
+            
           ],
         ),
       ),

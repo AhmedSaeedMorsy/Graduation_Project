@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:h_care/model/department-model.dart';
 import 'package:h_care/modules/user_modules/doctors/doctors.dart';
 import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
@@ -190,4 +191,32 @@ choseToast(toast state) {
       return CoolAlertType.confirm;
       break;
   }
+}
+
+
+Widget offlineWidget(Widget widget){
+  return OfflineBuilder(
+        connectivityBuilder: (
+          BuildContext context,
+          ConnectivityResult connectivity,
+          Widget child,
+        ) {
+          final bool connected = connectivity != ConnectivityResult.none;
+          if(connected){
+            return widget;
+          }else{
+            return Center(
+              child: Container(
+                child: Column( mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  Text("Can't connect .. Check your internet",style: TextStyle(fontSize: 18.0,fontStyle: FontStyle.italic,fontWeight: FontWeight.bold,color: mainColor,),),
+                  const SizedBox(height: 20.0,),
+                  const Image(image: AssetImage("assets/images/offline.png",),),
+                ]),
+              ),
+            );
+          }
+        },child: Center(child: CircularProgressIndicator(color: mainColor,)),
+        
+);
 }

@@ -70,7 +70,7 @@ class LoginScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          body: SafeArea(
+          body: offlineWidget(SafeArea(
             child: Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -188,7 +188,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ),
-        );
+        ));
       },
     );
   }

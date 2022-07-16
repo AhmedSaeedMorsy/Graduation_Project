@@ -16,128 +16,132 @@ class Hospital extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: TextStyle(
-                      color: mainColor,
-                      fontSize: 26.0,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Text(
-                    "Address of Hospital",
-                    style: TextStyle(
-                      color: secondColor,
-                      fontSize: 25.0,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Container(
-                    padding: const EdgeInsetsDirectional.all(8.0),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadiusDirectional.circular(15.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Intensive Care",
-                          style: TextStyle(
-                            color: mainColor,
-                            fontSize: 25.0,
-                          ),
+            appBar: AppBar(),
+            body: offlineWidget(
+              SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                          color: mainColor,
+                          fontSize: 26.0,
                         ),
-                        const SizedBox(
-                          height: 15.0,
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        "Address of Hospital",
+                        style: TextStyle(
+                          color: secondColor,
+                          fontSize: 25.0,
                         ),
-                        Row(
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Container(
+                        padding: const EdgeInsetsDirectional.all(8.0),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadiusDirectional.circular(15.0),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Number of Bed : 7",
+                              "Intensive Care",
                               style: TextStyle(
-                                color: secondColor,
-                                fontSize: 18.0,
+                                color: mainColor,
+                                fontSize: 25.0,
                               ),
-                            ),
-                            const Spacer(),
-                            Icon(
-                              Icons.attach_money_outlined,
-                              size: 22,
-                              color: secondColor,
                             ),
                             const SizedBox(
-                              width: 5.0,
+                              height: 15.0,
                             ),
-                            Text(
-                              "price : 100",
-                              style: TextStyle(
-                                color: secondColor,
-                                fontSize: 18.0,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Number of Bed : 7",
+                                  style: TextStyle(
+                                    color: secondColor,
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Icon(
+                                  Icons.attach_money_outlined,
+                                  size: 22,
+                                  color: secondColor,
+                                ),
+                                const SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text(
+                                  "price : 100",
+                                  style: TextStyle(
+                                    color: secondColor,
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              ],
                             ),
+                            const SizedBox(
+                              height: 15.0,
+                            ),
+                            defaultButton(text: "booking bed", function: () {}),
                           ],
                         ),
-                        const SizedBox(
-                          height: 15.0,
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        "Specialties",
+                        style: TextStyle(
+                          color: mainColor,
+                          fontSize: 25.0,
                         ),
-                        defaultButton(text: "booking bed", function: () {}),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Text(
-                    "Specialties",
-                    style: TextStyle(
-                      color: mainColor,
-                      fontSize: 25.0,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15.0,
-                  ),
-                  ConditionalBuilderRec(
-                    condition: state is! DepartmentInHospitalLoadingState,
-                    builder: (context) => GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10.0,
-                      crossAxisSpacing: 10.0,
-                      childAspectRatio: 1 / 1,
-                      children: List.generate(
-                        UserCubit.get(context)
-                            .departmentInHospitalModel
-                            .deptDataModel
-                            .length,
-                        (index) => buildGradItem(
-                            context,
+                      ),
+                      const SizedBox(
+                        height: 15.0,
+                      ),
+                      ConditionalBuilderRec(
+                        condition: state is! DepartmentInHospitalLoadingState,
+                        builder: (context) => GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                          childAspectRatio: 1 / 1,
+                          children: List.generate(
                             UserCubit.get(context)
                                 .departmentInHospitalModel
-                                .deptDataModel[index]),
+                                .deptDataModel
+                                .length,
+                            (index) => buildGradItem(
+                                context,
+                                UserCubit.get(context)
+                                    .departmentInHospitalModel
+                                    .deptDataModel[index]),
+                          ),
+                        ),
+                        fallback: (context) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
-                    ),fallback:(context)=> const Center(child: CircularProgressIndicator(),),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        );
+            ));
       },
     );
   }
