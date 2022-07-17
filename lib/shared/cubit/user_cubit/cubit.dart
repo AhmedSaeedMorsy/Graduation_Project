@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:h_care/model/department-in-hospital.dart';
 import 'package:h_care/model/department-model.dart';
-import 'package:h_care/model/doctors-indepartment-model.dart';
+import 'package:h_care/model/doctors-in-department-model.dart';
 import 'package:h_care/model/hospitals-model.dart';
 import 'package:h_care/model/intensive-care-model.dart';
 import 'package:h_care/model/medicine-model.dart';
@@ -23,7 +23,7 @@ class UserCubit extends Cubit<UserStates> {
 
   ///////////////////////////////////////////////////////////////////bottom navigation bar //////////////////////////////////////////////////////////
   int currentIndex = 0;
-  List<Widget> bottomnavItem =  [
+  List<Widget> bottomnavItem = [
     const Home(),
     const Specialties(),
     Pharmacy(),
@@ -45,6 +45,7 @@ class UserCubit extends Cubit<UserStates> {
     fabIcon = icon;
     emit(AppChangeBottomSheetState());
   }
+
 //////////////////////////////////////////////////////////////////All Department ////////////////////////////////////////////////////////
   DepartmentModel departmentModel = DepartmentModel();
   void getDepartmentModel() {
@@ -156,14 +157,8 @@ class UserCubit extends Cubit<UserStates> {
   }) {
     emit(AddMedicineLoadingState());
     DioHelper.postData(
-      path: "/api/medicine/addmedicine?patientId=$patientId&medicineName=$medicineName&phone=$phone&quantity=$quantity&ExprDate=$exprDate",
-      queryParameters: {
-        "patientId": patientId,
-        "medicineName": medicineName,
-        "phone": phone,
-        "quantity": quantity,
-        "ExprDate": exprDate,
-      },
+      path:
+          "/api/medicine/addmedicine?patientId=$patientId&medicineName=$medicineName&phone=$phone&quantity=$quantity&ExprDate=$exprDate",
     ).then((value) {
       emit(AddMedicineSuccessState());
       getMedicine();

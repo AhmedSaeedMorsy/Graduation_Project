@@ -12,9 +12,11 @@ class DepartmentModel {
 class DataModel {
   late int id;
   late String  name;
+  late String image;
 
   DataModel.fromJson( json) {
     id = json["id"];
     name = json["name"];
+    image = json["image"];
   }
 }

@@ -4,7 +4,7 @@ import 'package:conditional_builder_rec/conditional_builder_rec.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:h_care/model/doctors-indepartment-model.dart';
+import 'package:h_care/model/doctors-in-department-model.dart';
 
 import 'package:h_care/modules/user_modules/doctor_screen/doctor_screen.dart';
 import 'package:h_care/shared/componant/componant.dart';
@@ -89,10 +89,10 @@ class DoctorDisplay extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 50,
                     backgroundImage:
-                        AssetImage("assets/images/onboarding_4.png"),
+                        NetworkImage(model.imagePath),
                   ),
                   const SizedBox(
                     width: 15.0,

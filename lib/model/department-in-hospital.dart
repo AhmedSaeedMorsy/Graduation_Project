@@ -15,10 +15,12 @@ class DeptDataModel{
   late int id;
   late String  name;  
   HospitalData ? hospitals;
+  late String image;
 
   DeptDataModel.fromJson(Map <String,dynamic> json){
     id = json["id"];
     name =json["name"];
+    image = json["image"];
     hospitals = HospitalData.fromJson(json["hospitals"]);
   }
 }

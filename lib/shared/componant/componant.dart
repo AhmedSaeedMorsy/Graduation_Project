@@ -115,14 +115,12 @@ Widget buildGradItem(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            const Expanded(
+            Expanded(
               flex: 2,
-              child: Image(
-                image: AssetImage(
-                  "assets/images/photo1.png",
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(image: NetworkImage(model.image)),
                 ),
-                width: 60.0,
-                height: 60.0,
               ),
             ),
             const SizedBox(

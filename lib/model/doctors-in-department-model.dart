@@ -15,11 +15,13 @@ class DoctorDataModel {
   late String dPhone;
   late String day;
   late HospitalDataModel hospital;
+  late String imagePath;
   DoctorDataModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
     name = json["name"];
     dLastName = json["dLastName"];
     dPhone = json["dPhone"];
+    imagePath=json["imagePath"];
     day = json["day"];
    
     hospital = HospitalDataModel.fromJson(json["hospitals"]);

@@ -7,11 +7,13 @@ import 'package:h_care/shared/componant/componant.dart';
 import 'package:h_care/shared/constant.dart';
 import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
 import 'package:h_care/shared/cubit/user_cubit/states.dart';
+import 'package:h_care/shared/network/local/cache_helper.dart';
 import 'package:h_care/shared/style/color.dart';
 import 'package:intl/intl.dart';
 
 class Pharmacy extends StatelessWidget {
   Pharmacy({Key? key}) : super(key: key);
+  late String email = CacheHelper.getData(key: "userName");
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var formKey = GlobalKey<FormState>();
   var controllerMedicineName = TextEditingController();
@@ -33,11 +35,12 @@ class Pharmacy extends StatelessWidget {
               if (UserCubit.get(context).isBottomSheetShown) {
                 if (formKey.currentState!.validate()) {
                   UserCubit.get(context).postMedicine(
-                      patientId: controllerEmail.text,
-                      medicineName: controllerMedicineName.text,
-                      phone: controllerPhone.text,
-                      quantity: controllerQuantity.text,
-                      exprDate: controllerExprDate.text);
+                    patientId: email,
+                    medicineName: controllerMedicineName.text,
+                    phone: controllerPhone.text,
+                    quantity: controllerQuantity.text,
+                    exprDate: controllerExprDate.text,
+                  );
                   Navigator.pop(context);
 
                   UserCubit.get(context).changeBottomSheet(
@@ -71,20 +74,20 @@ class Pharmacy extends StatelessWidget {
                                     const SizedBox(
                                       height: 10.0,
                                     ),
-                                    defaultTextFormField(
-                                      controller: controllerEmail,
-                                      textInputType: TextInputType.emailAddress,
-                                      labelText: "Your Email",
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return ('Your Email must not be empty');
-                                        }
-                                        return null;
-                                      },
-                                      prefixIcon: const Icon(
-                                        Icons.alternate_email_outlined,
-                                      ),
-                                    ),
+                                    // defaultTextFormField(
+                                    //   controller: controllerEmail,
+                                    //   textInputType: TextInputType.emailAddress,
+                                    //   labelText: "Your Email",
+                                    //   validator: (value) {
+                                    //     if (value!.isEmpty) {
+                                    //       return ('Your Email must not be empty');
+                                    //     }
+                                    //     return null;
+                                    //   },
+                                    //   prefixIcon: const Icon(
+                                    //     Icons.alternate_email_outlined,
+                                    //   ),
+                                    // ),
                                     const SizedBox(
                                       height: 20.0,
                                     ),
@@ -143,7 +146,7 @@ class Pharmacy extends StatelessWidget {
                                       controller: controllerExprDate,
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return ('ExprDate must not be empty');
+                                          return ('ExpirDate must not be empty');
                                         }
                                         return null;
                                       },
@@ -198,12 +201,12 @@ class Pharmacy extends StatelessWidget {
   Widget pharmacyWidget(context) {
     return BlocConsumer<UserCubit, UserStates>(
       listener: (context, state) {
-        if(state is AddMedicineSuccessState){
+        if (state is AddMedicineSuccessState) {
           showToast(
-            message: "Added successfully",
-            state: toast.success,
-            title: "Done",
-            context: context);
+              message: "Added successfully",
+              state: toast.success,
+              title: "Done",
+              context: context);
         }
       },
       builder: (context, state) {
@@ -219,22 +222,32 @@ class Pharmacy extends StatelessWidget {
               const SizedBox(
                 height: 15.0,
               ),
-              Expanded(
-                child: ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => drugItem(
-                        UserCubit.get(context)
-                            .medicineModel
-                            .medicineModel[index]),
-                    separatorBuilder: (context, index) => Container(
-                          color: mainColor,
-                          width: double.infinity,
-                          height: 2.0,
-                        ),
-                    itemCount: UserCubit.get(context)
+              ConditionalBuilderRec(
+                condition: UserCubit.get(context)
                         .medicineModel
                         .medicineModel
-                        .length),
+                        .isNotEmpty ||
+                    state is! MedicineLoadingState,
+                builder: (context) => Expanded(
+                  child: ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) => drugItem(
+                          UserCubit.get(context)
+                              .medicineModel
+                              .medicineModel[index]),
+                      separatorBuilder: (context, index) => Container(
+                            color: mainColor,
+                            width: double.infinity,
+                            height: 2.0,
+                          ),
+                      itemCount: UserCubit.get(context)
+                          .medicineModel
+                          .medicineModel
+                          .length),
+                ),
+                fallback: (context) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
             ],
           ),
