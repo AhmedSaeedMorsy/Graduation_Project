@@ -95,7 +95,7 @@ class Hospital extends StatelessWidget {
                             const SizedBox(
                               height: 15.0,
                             ),
-                            defaultButton(text: "booking bed", function: () {}),
+                            
                           ],
                         ),
                       ),

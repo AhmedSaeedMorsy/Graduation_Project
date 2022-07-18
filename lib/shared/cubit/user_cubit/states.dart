@@ -26,6 +26,16 @@ class DoctorsInDepartmentErrorState extends UserStates {
   DoctorsInDepartmentErrorState(this.error);
 }
 
+class GetDoctorByIdLoadingState extends UserStates {}
+
+class GetDoctorByIdSuccessState extends UserStates {}
+
+class GetDoctorByIdErrorState extends UserStates {
+  final String error;
+
+  GetDoctorByIdErrorState(this.error);
+}
+
 class HospitalLoadingState extends UserStates {}
 
 class HospitalSuccessState extends UserStates {}

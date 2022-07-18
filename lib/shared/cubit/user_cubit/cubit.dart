@@ -166,4 +166,19 @@ class UserCubit extends Cubit<UserStates> {
       emit(AddMedicineErrorState(error));
     });
   }
+  ////////////////////////////get doctor by id ///////////////////////////////////////
+    DoctorsInDepart doctorById = DoctorsInDepart();
+
+  void getDoctorById({required String id}) {
+    emit(GetDoctorByIdLoadingState());
+
+    DioHelper.getData(path: "/api/Department/GetDoctorById?id=$id")
+        .then((value) {
+      doctorById = DoctorsInDepart.fromJson(value.data);
+      emit(GetDoctorByIdSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetDoctorByIdErrorState(error.toString()));
+    });
+  }
 }

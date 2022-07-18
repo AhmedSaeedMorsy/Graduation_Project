@@ -16,7 +16,6 @@ class DoctorDisplay extends StatelessWidget {
   DoctorDisplay({Key? key}) : super(key: key);
 
   @override
-  //late int id;
   late String dept;
   DoctorDisplay.Indept(
     this.dept,
@@ -75,7 +74,20 @@ class DoctorDisplay extends StatelessWidget {
   Widget doctorItem(context, DoctorDataModel model) {
     return GestureDetector(
       onTap: () {
-        navigatTo(context, const DoctorScreen());
+        UserCubit.get(context).getDoctorById(id: model.id);
+        navigatTo(
+          context,
+          DoctorScreen.Info(
+            model.dLastName,
+            model.dPhone,
+            model.day,
+            model.id,
+            model.hospital.name,
+            model.imagePath,
+            model.name,
+            dept,
+          ),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -91,8 +103,7 @@ class DoctorDisplay extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage:
-                        NetworkImage(model.imagePath),
+                    backgroundImage: NetworkImage(model.imagePath),
                   ),
                   const SizedBox(
                     width: 15.0,

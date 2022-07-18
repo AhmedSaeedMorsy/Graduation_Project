@@ -98,7 +98,26 @@ Widget intensiveWidget(context){
                   width: 15.0,
                 ),
                 Text(
-                  "Address of hospital",
+                  "bed floor : ${model.bedfloor}",
+                  style: TextStyle(fontSize: 20.0, color: secondColor),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15.0,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.numbers_outlined,
+                  size: 32.0,
+                  color: secondColor,
+                ),
+                const SizedBox(
+                  width: 15.0,
+                ),
+                Text(
+                  "bed number : ${model.bednumber}",
                   style: TextStyle(fontSize: 20.0, color: secondColor),
                 ),
               ],

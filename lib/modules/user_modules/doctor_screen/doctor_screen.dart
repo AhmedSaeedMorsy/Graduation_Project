@@ -6,8 +6,18 @@ import 'package:h_care/shared/componant/componant.dart';
 import 'package:h_care/shared/style/color.dart';
 
 class DoctorScreen extends StatelessWidget {
-  const DoctorScreen({Key? key}) : super(key: key);
-
+  late String name;
+  late String email;
+  late String dLastName;
+  late String dPhone;
+  late String day;
+  late String hospital;
+  late String imagePath;
+  late String dept;
+  DoctorScreen.Info(this.dLastName, this.dPhone, this.day, this.email,
+      this.hospital, this.imagePath, this.name, this.dept,
+      {Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,10 +30,19 @@ class DoctorScreen extends StatelessWidget {
   Widget doctorWidget() {
     return Column(
       children: [
-        const Expanded(
+        Expanded(
           child: Center(
-            child: Image(
-              image: AssetImage("assets/images/onboarding_4.png"),
+            child: Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadiusDirectional.only(
+                  topStart: Radius.circular(15.0),
+                  topEnd: Radius.circular(15.0),
+                ),
+              ),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: Image(
+                image: NetworkImage(imagePath),
+              ),
             ),
           ),
         ),
@@ -32,9 +51,13 @@ class DoctorScreen extends StatelessWidget {
           child: Container(
             height: double.infinity,
             decoration: BoxDecoration(
-                color: mainColor,
-                borderRadius: const BorderRadiusDirectional.vertical(
-                    top: Radius.circular(80.0))),
+              color: mainColor,
+              borderRadius: const BorderRadiusDirectional.vertical(
+                top: Radius.circular(
+                  80.0,
+                ),
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(30.0),
               child: SingleChildScrollView(
@@ -45,20 +68,21 @@ class DoctorScreen extends StatelessWidget {
                     Row(
                       children: [
                         Column(
-                          children: const [
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              "name doctor",
-                              style: TextStyle(
+                              name + " " + dLastName,
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 26.0,
                                   fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(
-                              width: 10.0,
+                            const SizedBox(
+                              height: 15.0,
                             ),
                             Text(
-                              "specialiest of doctor",
-                              style: TextStyle(
+                              "Specialties: $dept",
+                              style: const TextStyle(
                                   color: Colors.white70,
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.w100),
@@ -80,10 +104,29 @@ class DoctorScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10.0,
                     ),
-                    const Text(
-                      "Lorem Achieving success through hard work is my top priority. Lorem Achieving success through hard work is my top priority. Lorem Achieving success through hard work is my top priority. ",
-                      maxLines: 7,
-                      style: TextStyle(
+                    Text(
+                      "hospital : $hospital",
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
+                    Text(
+                      "Email : $email",
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
+                    Text(
+                      "Phone : $dPhone",
+                      style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 18.0,
                       ),
@@ -101,21 +144,12 @@ class DoctorScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10.0,
                     ),
-                    DatePicker(
-                      DateTime.now(),
-                      height: 120.0,
-                      dateTextStyle: const TextStyle(
-                          color: Colors.white70, fontSize: 22.0),
-                      dayTextStyle: const TextStyle(
-                          color: Colors.white70, fontSize: 14.0),
-                      monthTextStyle: const TextStyle(
-                          color: Colors.white70, fontSize: 14.0),
-                      initialSelectedDate: DateTime.now(),
-                      selectionColor: forthColor,
-                      selectedTextColor: mainColor,
-                      onDateChange: (date) {
-                        // New date selected
-                      },
+                    Text(
+                      "Day : $day",
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 18.0,
+                      ),
                     ),
                     const SizedBox(
                       height: 15.0,
@@ -130,17 +164,12 @@ class DoctorScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10.0,
                     ),
-                    Container(
-                      height: 54.0,
-                      child: ListView.separated(
-                          itemBuilder: (context, index) => scheduleButton(),
-                          separatorBuilder: (context, index) => const SizedBox(
-                                width: 10.0,
-                              ),
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: 6),
+                    const Text(
+                      "From 8:00 to 12:00",
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 18.0,
+                      ),
                     ),
                     const SizedBox(
                       height: 20.0,
@@ -155,20 +184,5 @@ class DoctorScreen extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Widget scheduleButton() {
-    return Container(
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        decoration: BoxDecoration(
-            color: Colors.white70,
-            borderRadius: BorderRadiusDirectional.circular(12.0)),
-        child: MaterialButton(
-          onPressed: () {},
-          child: const Text(
-            "08:30 pm",
-            style: TextStyle(fontSize: 18.0),
-          ),
-        ));
   }
 }
