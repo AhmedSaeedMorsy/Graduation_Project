@@ -6,6 +6,7 @@ import 'package:h_care/model/doctors-in-department-model.dart';
 import 'package:h_care/model/hospitals-model.dart';
 import 'package:h_care/model/intensive-care-model.dart';
 import 'package:h_care/model/medicine-model.dart';
+import 'package:h_care/model/prescription.dart';
 
 import 'package:h_care/modules/settings/settings.dart';
 import 'package:h_care/modules/user_modules/home/home.dart';
@@ -166,8 +167,9 @@ class UserCubit extends Cubit<UserStates> {
       emit(AddMedicineErrorState(error));
     });
   }
+
   ////////////////////////////get doctor by id ///////////////////////////////////////
-    DoctorsInDepart doctorById = DoctorsInDepart();
+  DoctorsInDepart doctorById = DoctorsInDepart();
 
   void getDoctorById({required String id}) {
     emit(GetDoctorByIdLoadingState());
@@ -179,6 +181,20 @@ class UserCubit extends Cubit<UserStates> {
     }).catchError((error) {
       print(error.toString());
       emit(GetDoctorByIdErrorState(error.toString()));
+    });
+  }
+
+  /////////////////////// Prescription ///////////////////////////////////////////////////
+  Prescription prescription = Prescription();
+  void getAllPrescription({required String email}) {
+    emit(GetPrescriptionLoadingState());
+    DioHelper.getData(
+            path: "/api/prescription/getallprescriptions?patientid=$email")
+        .then((value) {
+      prescription = Prescription.fromJson(value.data);
+      emit(GetPrescriptionSuccessState());
+    }).catchError((error) {
+      emit(GetPrescriptionErrorState(error.toString()));
     });
   }
 }

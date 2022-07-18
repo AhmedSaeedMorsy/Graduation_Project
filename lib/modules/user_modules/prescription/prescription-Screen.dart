@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:h_care/shared/componant/componant.dart';
 import 'package:h_care/shared/style/color.dart';
 
-class Prescription extends StatelessWidget {
-  const Prescription({Key? key}) : super(key: key);
-
+class PrescriptionScreen extends StatelessWidget {
+  const PrescriptionScreen({Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(), body: offlineWidget(prescriptionWidget()));

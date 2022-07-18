@@ -86,6 +86,16 @@ class MedicineErrorState extends UserStates {
   MedicineErrorState(this.error);
 }
 
+class GetLoadingState extends UserStates {}
+
+class GetSuccessState extends UserStates {}
+
+class GetErrorState extends UserStates {
+  final String error;
+
+  GetErrorState(this.error);
+}
+
 class AddMedicineLoadingState extends UserStates {}
 
 class AddMedicineSuccessState extends UserStates {}
@@ -94,4 +104,14 @@ class AddMedicineErrorState extends UserStates {
   final String error;
 
   AddMedicineErrorState(this.error);
+}
+
+class GetPrescriptionLoadingState extends UserStates {}
+
+class GetPrescriptionSuccessState extends UserStates {}
+
+class GetPrescriptionErrorState extends UserStates {
+  final String error;
+
+  GetPrescriptionErrorState(this.error);
 }

@@ -74,20 +74,6 @@ class Pharmacy extends StatelessWidget {
                                     const SizedBox(
                                       height: 10.0,
                                     ),
-                                    // defaultTextFormField(
-                                    //   controller: controllerEmail,
-                                    //   textInputType: TextInputType.emailAddress,
-                                    //   labelText: "Your Email",
-                                    //   validator: (value) {
-                                    //     if (value!.isEmpty) {
-                                    //       return ('Your Email must not be empty');
-                                    //     }
-                                    //     return null;
-                                    //   },
-                                    //   prefixIcon: const Icon(
-                                    //     Icons.alternate_email_outlined,
-                                    //   ),
-                                    // ),
                                     const SizedBox(
                                       height: 20.0,
                                     ),

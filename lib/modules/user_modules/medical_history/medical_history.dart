@@ -1,6 +1,9 @@
+import 'package:conditional_builder_rec/conditional_builder_rec.dart';
 import 'package:flutter/material.dart';
-import 'package:h_care/modules/user_modules/prescription/prescription.dart';
+import 'package:h_care/model/prescription.dart';
+import 'package:h_care/modules/user_modules/prescription/prescription-Screen.dart';
 import 'package:h_care/shared/componant/componant.dart';
+import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
 import 'package:h_care/shared/style/color.dart';
 
 class MedicalHistory extends StatelessWidget {
@@ -8,10 +11,11 @@ class MedicalHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return offlineWidget(medicalHistoryWidgt());
+    return offlineWidget(medicalHistoryWidgt(context));
   }
-Widget medicalHistoryWidgt(){
-  return Padding(
+
+  Widget medicalHistoryWidgt(context) {
+    return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
         children: [
@@ -24,7 +28,8 @@ Widget medicalHistoryWidgt(){
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
-                  Expanded(flex: 3,
+                  Expanded(
+                    flex: 3,
                     child: Text(
                       "Medical History..",
                       style: TextStyle(color: mainColor, fontSize: 24.0),
@@ -48,22 +53,38 @@ Widget medicalHistoryWidgt(){
             height: 20.0,
           ),
           Expanded(
-            child: ListView.separated(
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) => medicalHistoryItem(context),
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 15.0,
+            child: ConditionalBuilderRec(
+              condition: UserCubit.get(context)
+                  .prescription
+                  .prescriptionModel
+                  .isNotEmpty,
+              builder: (context) => ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) => medicalHistoryItem(
+                    context,
+                    UserCubit.get(context)
+                        .prescription
+                        .prescriptionModel[index]),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 15.0,
+                ),
+                itemCount: UserCubit.get(context)
+                    .prescription
+                    .prescriptionModel
+                    .length,
               ),
-              itemCount: 10,
+              fallback: (context) =>
+                  const Center(child: CircularProgressIndicator()),
             ),
           ),
         ],
       ),
     );
-}
-  Widget medicalHistoryItem(context) {
+  }
+
+  Widget medicalHistoryItem(context, PrescriptionModel model) {
     return InkWell(
-      onTap: () => navigatTo(context, const Prescription()),
+      onTap: () => navigatTo(context, const PrescriptionScreen()),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white70,
@@ -75,23 +96,24 @@ Widget medicalHistoryWidgt(){
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Today",
+                model.dateTime,
                 style: TextStyle(color: mainColor, fontSize: 20.0),
               ),
               const SizedBox(
                 height: 10.0,
               ),
               Text(
-                "Specialist : dental ",
+                "Specialist : ${model.department}",
                 style: TextStyle(color: mainColor, fontSize: 18.0),
               ),
               const SizedBox(
                 height: 10.0,
               ),
-              const Text(
-                "Lorem Achieving success through hard work is my top priority. Lorem Achieving success through ",
+              Text(
+                model.medicineName,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                maxLines: 1,
+                style: const TextStyle(color: Colors.grey, fontSize: 14.0),
               ),
             ],
           ),

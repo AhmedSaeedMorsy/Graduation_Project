@@ -52,7 +52,10 @@ class MyApp extends StatelessWidget {
             ..getHospital()
             ..getDepartmentModel()
             ..getBed()
-            ..getMedicine(),
+            ..getMedicine()
+            ..getAllPrescription(
+              email: CacheHelper.getData(key: "userName"),
+            ),
         ),
         BlocProvider(
           create: (context) => DoctorCubit(),
