@@ -1,32 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:h_care/layout/doctor_layout.dart';
-import 'package:h_care/layout/user_layout.dart';
-import 'package:h_care/modules/login/login_screen.dart';
+import 'package:h_care/business-logic/doctor_cubit/cubit.dart';
+import 'package:h_care/business-logic/login_cubit/cubit.dart';
+import 'package:h_care/business-logic/user_cubit/cubit.dart';
+import 'package:h_care/constant/style/theme.dart';
+import 'package:h_care/data/local/cache_helper.dart';
+import 'package:h_care/data/remote/dio.dart';
+import 'package:h_care/presentation/modules/splash_screen/splash_screen.dart';
 
-import 'package:h_care/modules/splash_screen/splash_screen.dart';
-import 'package:h_care/shared/bloc_observer.dart';
-
-import 'package:h_care/shared/cubit/doctor_cubit/cubit.dart';
-import 'package:h_care/shared/cubit/login_cubit/cubit.dart';
-
-import 'package:h_care/shared/cubit/user_cubit/cubit.dart';
-import 'package:h_care/shared/network/local/cache_helper.dart';
-import 'package:h_care/shared/network/remote/dio.dart';
-import 'package:h_care/shared/style/theme.dart';
 
 ///////////////// main function ///////////////////////
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   ////////// BloC observer //////////////////
-  BlocOverrides.runZoned(
-    () {
-      LoginCubit();
-      UserCubit();
-      DoctorCubit();
-    },
-    blocObserver: MyBlocObserver(),
-  );
+ 
   /////// object of Dio ////////////////////
   DioHelper.init();
   ////////// object of Shared preferences ///////////////////
