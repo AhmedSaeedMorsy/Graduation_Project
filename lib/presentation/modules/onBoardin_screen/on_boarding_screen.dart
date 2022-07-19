@@ -30,10 +30,10 @@ class _OnBoardingScrenState extends State<OnBoardingScren> {
   var pageController = PageController();
 
   List<BoardingModel> boardigItem = [
-    BoardingModel("body page 1", "assets/images/onboarding_1.png",
-        "assets/images/onboarding_2.png", "Title page 1"),
-    BoardingModel("body page 2", "assets/images/onboarding_3.png",
-        "assets/images/onboarding_4.png", "Title page 2")
+    BoardingModel("Facilitate the process of finding all the information required for the medical examination", "assets/images/onboarding_1.png",
+        "assets/images/onboarding_2.png", "Vision"),
+    BoardingModel("Book a doctor before going and find out the right time", "assets/images/onboarding_3.png",
+        "assets/images/onboarding_4.png", "Mission")
   ];
 
   bool isLast = false;

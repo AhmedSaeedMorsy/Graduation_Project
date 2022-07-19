@@ -75,6 +75,7 @@ navigatTo(context, Widget) {
 Widget bookMatrialButton({
   required Color backGround,
   required Color textColor,
+  required void Function() onPressed,
 }) {
   return Container(
     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -85,7 +86,7 @@ Widget bookMatrialButton({
     width: double.infinity,
     height: 40.0,
     child: MaterialButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Text(
         "book",
         style: TextStyle(color: textColor, fontSize: 22.0),

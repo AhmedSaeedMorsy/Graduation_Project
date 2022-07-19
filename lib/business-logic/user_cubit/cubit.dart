@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:h_care/business-logic/user_cubit/states.dart';
@@ -207,6 +208,27 @@ class UserCubit extends Cubit<UserStates> {
       emit(GetPrescriptionByIdLoadingState());
     }).catchError((error) {
       emit(GetPrescriptionByIdErrorState(error.toString()));
+    });
+  }
+
+  /////////////////////// Booking Doctor ///////////////////////////////////////////
+  void bookingDoctor({
+    required String doctorId,
+    required String patientId,
+  }) {
+    emit(BookingDoctorLoadingState());
+    DioHelper.postData(
+            path:
+                "/api/Department/bookingdoctor?id=$doctorId&patientId=$patientId")
+        .then((value) {
+      emit(BookingDoctorSuccessState());
+    }).catchError((error) {
+      emit(
+        BookingDoctorErrorState(
+          error.toString(),
+        ),
+      );
+      print(error.toString());
     });
   }
 }

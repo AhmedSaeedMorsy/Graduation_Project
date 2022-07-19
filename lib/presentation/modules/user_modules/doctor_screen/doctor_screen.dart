@@ -1,7 +1,11 @@
 // ignore_for_file: sized_box_for_whitespace, must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:h_care/business-logic/user_cubit/cubit.dart';
+import 'package:h_care/business-logic/user_cubit/states.dart';
 import 'package:h_care/constant/style/color.dart';
+import 'package:h_care/data/local/cache_helper.dart';
 import 'package:h_care/presentation/componant/componant.dart';
 
 class DoctorScreen extends StatelessWidget {
@@ -20,14 +24,27 @@ class DoctorScreen extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-        ),
-        body: offlineWidget(doctorWidget()));
+    return BlocConsumer<UserCubit, UserStates>(
+      listener: (context, state) {
+        if (state is BookingDoctorSuccessState) {
+          showToast(
+              message: "Successfully booked",
+              state: toast.success,
+              title: "Done",
+              context: context);
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+            appBar: AppBar(
+              elevation: 0.0,
+            ),
+            body: offlineWidget(doctorWidget(context)));
+      },
+    );
   }
 
-  Widget doctorWidget() {
+  Widget doctorWidget(context) {
     return Column(
       children: [
         Expanded(
@@ -175,7 +192,13 @@ class DoctorScreen extends StatelessWidget {
                       height: 20.0,
                     ),
                     bookMatrialButton(
-                        backGround: forthColor, textColor: mainColor),
+                        backGround: forthColor,
+                        textColor: mainColor,
+                        onPressed: () {
+                          UserCubit.get(context).bookingDoctor(
+                              doctorId: email,
+                              patientId: CacheHelper.getData(key: "userName"));
+                        }),
                   ],
                 ),
               ),

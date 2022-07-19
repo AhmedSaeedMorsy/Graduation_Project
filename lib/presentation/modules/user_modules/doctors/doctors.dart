@@ -6,11 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:h_care/business-logic/user_cubit/cubit.dart';
 import 'package:h_care/business-logic/user_cubit/states.dart';
 import 'package:h_care/constant/style/color.dart';
+import 'package:h_care/data/local/cache_helper.dart';
 import 'package:h_care/data/model/doctors-in-department-model.dart';
 import 'package:h_care/presentation/componant/componant.dart';
 import 'package:h_care/presentation/modules/user_modules/doctor_screen/doctor_screen.dart';
-
-
 
 class DoctorDisplay extends StatelessWidget {
   DoctorDisplay({Key? key}) : super(key: key);
@@ -23,52 +22,57 @@ class DoctorDisplay extends StatelessWidget {
   //UserCubit.get(context).getDoctorsInDepart(id: id);
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserCubit, UserStates>(
-        listener: ((context, state) {}),
-        builder: (context, state) {
-          return Scaffold(
-              appBar: AppBar(),
-              body: offlineWidget(
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Doctors.. ",
-                        style: TextStyle(color: mainColor, fontSize: 26.0),
-                      ),
-                      const SizedBox(
-                        height: 15.0,
-                      ),
-                      ConditionalBuilderRec(
-                        condition: state is! DoctorsInDepartmentLoadingState,
-                        builder: (context) => Expanded(
-                          child: ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              itemBuilder: (context, index) => doctorItem(
-                                  context,
-                                  UserCubit.get(context)
-                                      .doctorsInDepart
-                                      .doctorInDepartmentData[index]),
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(
-                                    height: 15.0,
-                                  ),
-                              itemCount: UserCubit.get(context)
-                                  .doctorsInDepart
-                                  .doctorInDepartmentData
-                                  .length),
-                        ),
-                        fallback: (context) => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    ],
+    return BlocConsumer<UserCubit, UserStates>(listener: ((context, state) {
+      if (state is BookingDoctorSuccessState) {
+        showToast(
+            message: "Successfully booked",
+            state: toast.success,
+            title: "Done",
+            context: context,);
+      }
+    }), builder: (context, state) {
+      return Scaffold(
+          appBar: AppBar(),
+          body: offlineWidget(
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Doctors.. ",
+                    style: TextStyle(color: mainColor, fontSize: 26.0),
                   ),
-                ),
-              ));
-        });
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  ConditionalBuilderRec(
+                    condition: state is! DoctorsInDepartmentLoadingState,
+                    builder: (context) => Expanded(
+                      child: ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) => doctorItem(
+                              context,
+                              UserCubit.get(context)
+                                  .doctorsInDepart
+                                  .doctorInDepartmentData[index]),
+                          separatorBuilder: (context, index) => const SizedBox(
+                                height: 15.0,
+                              ),
+                          itemCount: UserCubit.get(context)
+                              .doctorsInDepart
+                              .doctorInDepartmentData
+                              .length),
+                    ),
+                    fallback: (context) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ));
+    });
   }
 
   Widget doctorItem(context, DoctorDataModel model) {
@@ -78,16 +82,15 @@ class DoctorDisplay extends StatelessWidget {
         navigatTo(
           context,
           DoctorScreen.Info(
-            model.dLastName,
-            model.dPhone,
-            model.day,
-            model.id,
-            model.hospital.name,
-            model.imagePath,
-            model.name,
-            dept,
-            model.time
-          ),
+              model.dLastName,
+              model.dPhone,
+              model.day,
+              model.id,
+              model.hospital.name,
+              model.imagePath,
+              model.name,
+              dept,
+              model.time),
         );
       },
       child: Container(
@@ -205,7 +208,16 @@ class DoctorDisplay extends StatelessWidget {
               const SizedBox(
                 height: 10.0,
               ),
-              bookMatrialButton(backGround: mainColor, textColor: Colors.white),
+              bookMatrialButton(
+                backGround: mainColor,
+                textColor: Colors.white,
+                onPressed: () {
+                  UserCubit.get(context).bookingDoctor(
+                    doctorId: model.id,
+                    patientId: CacheHelper.getData(key: "userName"),
+                  );
+                },
+              ),
             ],
           ),
         ),
