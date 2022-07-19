@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:h_care/business-logic/user_cubit/cubit.dart';
+import 'package:h_care/constant/constant.dart';
 import 'package:h_care/constant/style/color.dart';
+import 'package:h_care/presentation/modules/doctor_modules/profile/profile-doctor-screen.dart';
 import 'package:h_care/presentation/modules/user_modules/doctors/doctors.dart';
+import 'package:h_care/presentation/modules/user_modules/profile/profile-user-screen.dart';
 
 
 void navigatorPushAndReblace(context, Widget) => Navigator.pushAndRemoveUntil(
@@ -237,3 +240,9 @@ Widget offlineWidget(Widget widget) {
     )),
   );
 }
+Widget checkProfileScreen() {
+    if (role == "User") {
+      return const ProfileUserScreen();
+    }
+    return const ProfileDoctorScreen();
+  }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:h_care/constant/constant.dart';
 import 'package:h_care/constant/style/color.dart';
 import 'package:h_care/data/local/cache_helper.dart';
 import 'package:h_care/presentation/componant/componant.dart';
+import 'package:h_care/presentation/modules/doctor_modules/profile/profile-doctor-screen.dart';
 import 'package:h_care/presentation/modules/login/login_screen.dart';
+import 'package:h_care/presentation/modules/user_modules/profile/profile-user-screen.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
@@ -40,7 +43,9 @@ class Settings extends StatelessWidget {
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.arrow_forward_outlined),
-                  onPressed: () {},
+                  onPressed: () {
+                    navigatTo(context, checkProfileScreen());
+                  },
                 ),
               ],
             ),
@@ -134,4 +139,6 @@ class Settings extends StatelessWidget {
       ),
     );
   }
+
+  
 }

@@ -8,12 +8,11 @@ import 'package:h_care/data/local/cache_helper.dart';
 import 'package:h_care/data/remote/dio.dart';
 import 'package:h_care/presentation/modules/splash_screen/splash_screen.dart';
 
-
 ///////////////// main function ///////////////////////
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   ////////// BloC observer //////////////////
- 
+
   /////// object of Dio ////////////////////
   DioHelper.init();
   ////////// object of Shared preferences ///////////////////
@@ -42,6 +41,12 @@ class MyApp extends StatelessWidget {
             ..getMedicine()
             ..getAllPrescription(
               email: CacheHelper.getData(key: "userName"),
+            )
+            ..getUSerInfo(
+              id: CacheHelper.getData(key: "userName"),
+            )
+            ..getDoctorsOfPatient(
+              id: CacheHelper.getData(key: "userName"),
             ),
         ),
         BlocProvider(

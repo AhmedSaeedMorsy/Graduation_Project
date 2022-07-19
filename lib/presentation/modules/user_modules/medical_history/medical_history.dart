@@ -74,7 +74,7 @@ class MedicalHistory extends StatelessWidget {
                     .length,
               ),
               fallback: (context) =>
-                  const Center(child: CircularProgressIndicator()),
+                  const Center(),
             ),
           ),
         ],

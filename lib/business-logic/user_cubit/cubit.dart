@@ -7,11 +7,13 @@ import 'package:h_care/business-logic/user_cubit/states.dart';
 import 'package:h_care/constant/end-points.dart';
 import 'package:h_care/data/model/department-in-hospital.dart';
 import 'package:h_care/data/model/department-model.dart';
+import 'package:h_care/data/model/doctor-of-patient.dart';
 import 'package:h_care/data/model/doctors-in-department-model.dart';
 import 'package:h_care/data/model/hospitals-model.dart';
 import 'package:h_care/data/model/intensive-care-model.dart';
 import 'package:h_care/data/model/medicine-model.dart';
 import 'package:h_care/data/model/prescription.dart';
+import 'package:h_care/data/model/user.dart';
 import 'package:h_care/data/remote/dio.dart';
 import 'package:h_care/presentation/modules/settings/settings.dart';
 import 'package:h_care/presentation/modules/user_modules/home/home.dart';
@@ -228,6 +230,35 @@ class UserCubit extends Cubit<UserStates> {
           error.toString(),
         ),
       );
+      print(error.toString());
+    });
+  }
+
+  ///////////////////////// Get User Info /////////////////////
+  User userModel = User();
+  void getUSerInfo({required String id}) {
+    emit(UserInfoLoadingState());
+    DioHelper.getData(path: "/api/Department/GetPatientById?id=$id")
+        .then((value) {
+      userModel = User.fromJson(value.data);
+
+      emit(UserInfoSuccessState());
+    }).catchError((error) {
+      emit(UserInfoErrorState(error.toString()));
+      print(error.toString());
+    });
+  }
+
+  /////////////////////// Doctor of patient //////////////////////////
+  DoctorsOfPatient doctorsOfPatient = DoctorsOfPatient();
+  void getDoctorsOfPatient({required String id}) {
+    emit(DoctorOfPatientLoadingState());
+    DioHelper.getData(path: "/api/Department/listyourdoctors?PatientId=$id")
+        .then((value) {
+      doctorsOfPatient = DoctorsOfPatient.fromJson(value.data);
+      emit(DoctorOfPatientSuccessState());
+    }).catchError((error) {
+      emit(DoctorOfPatientErrorState(error.toString()));
       print(error.toString());
     });
   }

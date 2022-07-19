@@ -125,3 +125,23 @@ class BookingDoctorErrorState extends UserStates {
 
   BookingDoctorErrorState(this.error);
 }
+
+class UserInfoLoadingState extends UserStates {}
+
+class UserInfoSuccessState extends UserStates {}
+
+class UserInfoErrorState extends UserStates {
+  final String error;
+
+  UserInfoErrorState(this.error);
+}
+
+class DoctorOfPatientLoadingState extends UserStates {}
+
+class DoctorOfPatientSuccessState extends UserStates {}
+
+class DoctorOfPatientErrorState extends UserStates {
+  final String error;
+
+  DoctorOfPatientErrorState(this.error);
+}

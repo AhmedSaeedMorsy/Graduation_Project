@@ -19,16 +19,16 @@ class DoctorDisplay extends StatelessWidget {
   DoctorDisplay.Indept(
     this.dept,
   );
-  //UserCubit.get(context).getDoctorsInDepart(id: id);
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserStates>(listener: ((context, state) {
       if (state is BookingDoctorSuccessState) {
         showToast(
-            message: "Successfully booked",
-            state: toast.success,
-            title: "Done",
-            context: context,);
+          message: "Successfully booked",
+          state: toast.success,
+          title: "Done",
+          context: context,
+        );
       }
     }), builder: (context, state) {
       return Scaffold(
@@ -212,9 +212,19 @@ class DoctorDisplay extends StatelessWidget {
                 backGround: mainColor,
                 textColor: Colors.white,
                 onPressed: () {
-                  UserCubit.get(context).bookingDoctor(
-                    doctorId: model.id,
-                    patientId: CacheHelper.getData(key: "userName"),
+                  showToast(
+                    message: "Do you want to confirm your booking?",
+                    state: toast.confirm,
+                    title: "Confirm",
+                    context: context,
+                    showCance: true,
+                    confirmFunction: () {
+                      Navigator.pop(context);                      
+                      UserCubit.get(context).bookingDoctor(
+                        doctorId: model.id,
+                        patientId: CacheHelper.getData(key: "userName"),
+                      );
+                    },
                   );
                 },
               ),

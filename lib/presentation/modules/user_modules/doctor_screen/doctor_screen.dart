@@ -195,9 +195,20 @@ class DoctorScreen extends StatelessWidget {
                         backGround: forthColor,
                         textColor: mainColor,
                         onPressed: () {
-                          UserCubit.get(context).bookingDoctor(
-                              doctorId: email,
-                              patientId: CacheHelper.getData(key: "userName"));
+                          showToast(
+                            message: "Do you want to confirm your booking?",
+                            state: toast.confirm,
+                            title: "Confirm",
+                            context: context,
+                            showCance: true,
+                            confirmFunction: () {
+                              Navigator.pop(context);
+                              UserCubit.get(context).bookingDoctor(
+                                doctorId: email,
+                                patientId: CacheHelper.getData(key: "userName"),
+                              );
+                            },
+                          );
                         }),
                   ],
                 ),

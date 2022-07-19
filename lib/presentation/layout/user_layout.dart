@@ -10,7 +10,7 @@ import 'package:h_care/presentation/componant/componant.dart';
 import 'package:h_care/presentation/modules/login/login_screen.dart';
 import 'package:h_care/presentation/modules/notifications/notifications.dart';
 import 'package:h_care/presentation/modules/search/search.dart';
-
+import 'package:h_care/presentation/modules/user_modules/profile/profile-user-screen.dart';
 
 class UserHomeLayOut extends StatelessWidget {
   UserHomeLayOut({Key? key}) : super(key: key);
@@ -114,7 +114,7 @@ class UserHomeLayOut extends StatelessWidget {
             body: UserCubit.get(context)
                 .bottomnavItem[UserCubit.get(context).currentIndex],
           ),
-/////////////////////// Ui of Drawer //////////////////////////////// 
+/////////////////////// Ui of Drawer ////////////////////////////////
           drawer: SafeArea(
             child: Container(
               child: ListTileTheme(
@@ -136,23 +136,22 @@ class UserHomeLayOut extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Image.asset(
-                        'assets/images/icon.png',
+                        'assets/images/person.png',
                       ),
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        navigatTo(context, UserHomeLayOut());
+                      },
                       leading: const Icon(Icons.home),
                       title: const Text('Home'),
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        navigatTo(context, const ProfileUserScreen());
+                      },
                       leading: const Icon(Icons.account_circle_rounded),
                       title: const Text('Profile'),
-                    ),
-                    ListTile(
-                      onTap: () {},
-                      leading: const Icon(Icons.favorite),
-                      title: const Text('Favourites'),
                     ),
                     ListTile(
                       onTap: () {},
@@ -191,6 +190,7 @@ class UserHomeLayOut extends StatelessWidget {
       },
     );
   }
+
 //////////////////////// function to Show Drawer /////////////////////////////////
   void handleMenuButtonPressed() {
     advancedDrawerController.showDrawer();
