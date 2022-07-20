@@ -30,7 +30,7 @@ class _OnBoardingScrenState extends State<OnBoardingScren> {
   var pageController = PageController();
 
   List<BoardingModel> boardigItem = [
-    BoardingModel("Facilitate the process of finding all the information required for the medical examination", "assets/images/onboarding_1.png",
+    BoardingModel("Facilitate the process of finding all the information required for the medical", "assets/images/onboarding_1.png",
         "assets/images/onboarding_2.png", "Vision"),
     BoardingModel("Book a doctor before going and find out the right time", "assets/images/onboarding_3.png",
         "assets/images/onboarding_4.png", "Mission")
@@ -63,7 +63,9 @@ class _OnBoardingScrenState extends State<OnBoardingScren> {
       body: Padding(
         padding: const EdgeInsets.all(40.0),
         child: Column(
+          
           children: [
+            
             Expanded(
               child: PageView.builder(
                 onPageChanged: (index) {

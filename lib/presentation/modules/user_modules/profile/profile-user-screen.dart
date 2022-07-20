@@ -181,6 +181,7 @@ class ProfileUserScreen extends StatelessWidget {
     );
   }
 
+
   Widget doctorItem(DoctorsOfPatientModel model) {
     return Container(
       decoration: BoxDecoration(

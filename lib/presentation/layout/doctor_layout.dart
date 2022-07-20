@@ -6,11 +6,12 @@ import 'package:h_care/business-logic/doctor_cubit/cubit.dart';
 import 'package:h_care/business-logic/doctor_cubit/states.dart';
 import 'package:h_care/constant/style/color.dart';
 import 'package:h_care/data/local/cache_helper.dart';
+import 'package:h_care/main.dart';
 import 'package:h_care/presentation/componant/componant.dart';
+import 'package:h_care/presentation/modules/doctor_modules/profile/profile-Doctor-screen.dart';
 import 'package:h_care/presentation/modules/login/login_screen.dart';
 import 'package:h_care/presentation/modules/notifications/notifications.dart';
 import 'package:h_care/presentation/modules/search/search.dart';
-
 
 class DoctorHomeLayOut extends StatelessWidget {
   DoctorHomeLayOut({Key? key}) : super(key: key);
@@ -78,11 +79,6 @@ class DoctorHomeLayOut extends StatelessWidget {
               color: mainColor,
               items: const [
                 Icon(
-                  Icons.calendar_today_outlined,
-                  size: 30,
-                  color: Colors.white,
-                ),
-                Icon(
                   Icons.view_list_outlined,
                   size: 30,
                   color: Colors.white,
@@ -121,24 +117,21 @@ class DoctorHomeLayOut extends StatelessWidget {
                         color: Colors.black26,
                         shape: BoxShape.circle,
                       ),
-                      child: Image.asset(
-                        'assets/images/icon.png',
-                      ),
+                      child: backgroundImage(context),
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        navigatTo(context, DoctorHomeLayOut());
+                      },
                       leading: const Icon(Icons.home),
                       title: const Text('Home'),
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        navigatTo(context, const ProfileDoctorScreen());
+                      },
                       leading: const Icon(Icons.account_circle_rounded),
                       title: const Text('Profile'),
-                    ),
-                    ListTile(
-                      onTap: () {},
-                      leading: const Icon(Icons.favorite),
-                      title: const Text('Favourites'),
                     ),
                     ListTile(
                       onTap: () {},
@@ -149,6 +142,8 @@ class DoctorHomeLayOut extends StatelessWidget {
                       onTap: () {
                         navigatorPushAndReblace(context, LoginScreen());
                         CacheHelper.removeData(key: 'token');
+                        CacheHelper.removeData(key: 'role');
+                        CacheHelper.removeData(key: 'userName');
                       },
                       leading: const Icon(Icons.logout_outlined),
                       title: const Text('Sign out'),
@@ -174,6 +169,15 @@ class DoctorHomeLayOut extends StatelessWidget {
         );
       },
     );
+  }
+
+  Widget backgroundImage(context) {
+    if (DoctorCubit.get(context).doctor.imagePath != null) {
+      return Image.network(
+        DoctorCubit.get(context).doctor.imagePath!,
+        fit: BoxFit.cover,
+      );
+    }return Image.asset("assets/images/person.png",fit: BoxFit.cover,);
   }
 
   void handleMenuButtonPressed() {

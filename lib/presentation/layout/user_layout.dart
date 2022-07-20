@@ -136,7 +136,7 @@ class UserHomeLayOut extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Image.asset(
-                        'assets/images/person.png',
+                        'assets/images/person.png',fit: BoxFit.cover,
                       ),
                     ),
                     ListTile(

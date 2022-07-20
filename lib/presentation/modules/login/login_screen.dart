@@ -42,6 +42,9 @@ class LoginScreen extends StatelessWidget {
                 "Doctor")) {
               CacheHelper.setData(key: "role", value: "Doctor");
               CacheHelper.setData(
+                  key: "userName",
+                  value: LoginCubit.get(context).userLoginModel!.username);
+              CacheHelper.setData(
                       key: "token",
                       value: LoginCubit.get(context).userLoginModel!.token)
                   .then((value) {

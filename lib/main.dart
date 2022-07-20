@@ -50,7 +50,11 @@ class MyApp extends StatelessWidget {
             ),
         ),
         BlocProvider(
-          create: (context) => DoctorCubit(),
+          create: (context) => DoctorCubit()
+            ..getPatientOfDoctor(id: CacheHelper.getData(key: "userName"))
+            ..getDotorInfo(
+              id: CacheHelper.getData(key: "userName"),
+            ),
         ),
       ],
       child: MaterialApp(
