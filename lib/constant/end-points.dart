@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_declarations, non_constant_identifier_names
+// ignore_for_file: file_names
 
 const String allDepartment= "/api/Department/getalldepartments";
 
